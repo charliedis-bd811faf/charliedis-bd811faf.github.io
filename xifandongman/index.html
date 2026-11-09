@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>稀饭动漫 - 新番导视与深度解析</title>
+  <meta name="description" content="稀饭动漫汇聚2026年秋季新番、经典补番与国创动态。提供具体动画条目推荐、分类筛选、更新速报与深度解析，适合追番用户与动漫爱好者查阅。">
+  <meta name="keywords" content="秋季新番,国创动画,补番推荐,动画深度解析,追番指南">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23f5a623'/%3E%3Ccircle cx='50' cy='45' r='28' fill='%23fff'/%3E%3Ccircle cx='50' cy='45' r='12' fill='%23f5a623'/%3E%3C/svg%3E">
+  <style>
+    /* ========== 色彩与基础系统 ========== */
+    :root {
+      --color-bg: #fdfaf7;
+      --color-surface: #ffffff;
+      --color-primary: #f5a623;
+      --color-primary-hover: #e0941a;
+      --color-primary-light: #fff5e6;
+      --color-secondary: #2c3e50;
+      --color-text: #2d2d2d;
+      --color-text-secondary: #6b6b6b;
+      --color-text-muted: #9a9a9a;
+      --color-border: #e8e2dc;
+      --color-border-light: #f0ebe5;
+      --color-tag-bg: #fdf2e4;
+      --color-tag-text: #b8730e;
+      --color-success: #27ae60;
+      --color-info: #2980b9;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      --font-mono: "SF Mono", "Fira Code", monospace;
+      --header-height: 64px;
+      --notice-height: 38px;
+      --sticky-offset: calc(var(--header-height) + var(--notice-height));
+      --container-width: 1360px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--sticky-offset);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ========== 吸顶公告条 ========== */
+    .notice-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1002;
+      height: var(--notice-height);
+      background: linear-gradient(90deg, #f5a623, #f7b84d);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0 16px;
+      letter-spacing: 0.02em;
+    }
+    .notice-bar a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+
+    /* ========== 吸顶页头 ========== */
+    .site-header {
+      position: sticky;
+      top: var(--notice-height);
+      z-index: 1001;
+      height: var(--header-height);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+    }
+    .header-inner {
+      width: 100%;
+      max-width: var(--container-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--color-secondary);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .brand svg { width: 36px; height: 36px; flex-shrink: 0; }
+    .brand .brand-text { color: var(--color-secondary); }
+    .brand .brand-text em { font-style: normal; color: var(--color-primary); }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .header-nav a {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .header-nav a:hover,
+    .header-nav a:focus-visible {
+      background: var(--color-primary-light);
+      color: var(--color-primary-hover);
+      outline: none;
+    }
+    .header-nav a:focus-visible { box-shadow: 0 0 0 2px var(--color-primary); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 0 4px 0 14px;
+      height: 36px;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus-within { border-color: var(--color-primary); }
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      width: 140px;
+      color: var(--color-text);
+    }
+    .search-box input::placeholder { color: var(--color-text-muted); }
+    .search-box button {
+      border: none;
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: 16px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .search-box button:hover { background: var(--color-primary-hover); }
+    .search-box button:focus-visible { outline: 2px solid var(--color-secondary); outline-offset: 2px; }
+
+    /* ========== 布局容器 ========== */
+    .container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== 首屏 ========== */
+    .hero {
+      padding: 48px 0 40px;
+      background: linear-gradient(160deg, #fff9f0 0%, #fdfaf7 60%, #fef6ed 100%);
+      border-bottom: 1px solid var(--color-border-light);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: -60px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-content h1 {
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--color-secondary);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .hero-content h1 .accent { color: var(--color-primary); }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 28px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 28px;
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: 28px;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(245,166,35,0.35);
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,166,35,0.4); }
+    .btn-primary:focus-visible { outline: 2px solid var(--color-secondary); outline-offset: 3px; }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--color-secondary);
+      border-radius: 28px;
+      font-weight: 600;
+      font-size: 15px;
+      border: 2px solid var(--color-border);
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--color-primary); color: var(--color-primary-hover); background: var(--color-primary-light); }
+    .btn-outline:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-illustration {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* ========== 主内容区三栏 ========== */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 178px 1fr 248px;
+      gap: 32px;
+      padding: 40px 0 60px;
+    }
+
+    /* ========== 左频道索引 ========== */
+    .channel-sidebar {
+      position: sticky;
+      top: calc(var(--sticky-offset) + 24px);
+      align-self: start;
+    }
+    .channel-nav {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 18px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .channel-nav h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 18px 12px;
+      border-bottom: 1px solid var(--color-border-light);
+      margin-bottom: 8px;
+    }
+    .channel-nav ul { list-style: none; }
+    .channel-nav li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .channel-nav li a:hover,
+    .channel-nav li a:focus-visible {
+      background: var(--color-primary-light);
+      color: var(--color-primary-hover);
+      border-left-color: var(--color-primary);
+      outline: none;
+    }
+    .channel-nav li a .nav-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-border);
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .channel-nav li a:hover .nav-dot { background: var(--color-primary); }
+
+    /* ========== 中间主内容 ========== */
+    .main-content { min-width: 0; }
+
+    /* ========== 右辅助栏 ========== */
+    .aux-sidebar {
+      position: sticky;
+      top: calc(var(--sticky-offset) + 24px);
+      align-self: start;
+    }
+
+    /* ========== 通用板块样式 ========== */
+    .section {
+      margin-bottom: 44px;
+    }
+    .section:last-child { margin-bottom: 0; }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--color-secondary);
+      letter-spacing: -0.01em;
+      position: relative;
+      padding-left: 16px;
+    }
+    .section-header h2::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 4px;
+      border-radius: 2px;
+      background: var(--color-primary);
+    }
+    .section-header .more-link {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .section-header .more-link:hover { color: var(--color-primary); }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.75;
+    }
+
+    /* ========== 概览文本 ========== */
+    .overview-text {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      font-size: 14.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.85;
+      box-shadow: var(--shadow-sm);
+    }
+    .overview-text p { margin-bottom: 12px; }
+    .overview-text p:last-child { margin-bottom: 0; }
+    .overview-text strong { color: var(--color-text); font-weight: 600; }
+
+    /* ========== 卡片网格 ========== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+    .anime-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.25s;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .anime-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: #e8d5b8;
+    }
+    .anime-card .card-cover {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background: #f5f0e8;
+    }
+    .anime-card .card-cover img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s;
+    }
+    .anime-card:hover .card-cover img { transform: scale(1.04); }
+    .anime-card .card-badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: rgba(0,0,0,0.65);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .anime-card .card-body {
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .anime-card .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin-bottom: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .anime-card .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--color-tag-bg);
+      color: var(--color-tag-text);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .anime-card .card-desc {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .anime-card .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-border-light);
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+    .anime-card .card-meta .score {
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* ========== 最新更新紧凑列表 ========== */
+    .update-list {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .update-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+      transition: background 0.15s;
+    }
+    .update-item:last-child { border-bottom: none; }
+    .update-item:hover { background: #fefcf9; }
+    .update-item .update-time {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      min-width: 72px;
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+    .update-item .update-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-secondary);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .update-item .update-summary {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      flex: 1;
+      line-height: 1.5;
+    }
+    .update-item .update-tag {
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .update-item .update-tag.blue { background: #e3f2fd; color: #1565c0; }
+    .update-item .update-tag.purple { background: #f3e5f5; color: #7b1fa2; }
+
+    /* ========== 分类入口 ========== */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+      gap: 6px;
+    }
+    .category-card:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .category-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .category-card .cat-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--color-primary-light);
+    }
+    .category-card .cat-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-secondary);
+    }
+    .category-card .cat-count {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========== 深度解析正文 ========== */
+    .deep-analysis {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 32px 36px;
+      box-shadow: var(--shadow-sm);
+    }
+    .deep-analysis h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin: 24px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--color-border);
+    }
+    .deep-analysis h3:first-of-type { margin-top: 0; }
+    .deep-analysis p {
+      font-size: 14.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.85;
+      margin-bottom: 14px;
+    }
+    .deep-analysis ul {
+      margin: 12px 0 16px 20px;
+      font-size: 14.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.85;
+    }
+    .deep-analysis li { margin-bottom: 6px; }
+    .deep-analysis strong { color: var(--color-text); font-weight: 600; }
+
+    /* ========== 体验指南 ========== */
+    .guide-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .guide-step {
+      display: flex;
+      gap: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      align-items: flex-start;
+    }
+    .guide-step .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .guide-step .step-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin-bottom: 6px;
+    }
+    .guide-step .step-content p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ========== FAQ ========== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-item summary {
+      padding: 16px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-secondary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item summary:hover { background: #fefcf9; }
+    .faq-item summary:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+    .faq-item .faq-answer {
+      padding: 0 22px 18px;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+    }
+
+    /* ========== 用户评论 ========== */
+    .comment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .comment-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .comment-card .comment-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .comment-card .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .comment-card .nickname {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-secondary);
+    }
+    .comment-card .comment-time {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-left: auto;
+    }
+    .comment-card .comment-text {
+      font-size: 13.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ========== 相关资讯 ========== */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .news-item {
+      display: flex;
+      gap: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s;
+    }
+    .news-item:hover { border-color: #e8d5b8; }
+    .news-item .news-thumb {
+      width: 180px;
+      min-height: 110px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #f5f0e8;
+    }
+    .news-item .news-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .news-item:hover .news-thumb img { transform: scale(1.03); }
+    .news-item .news-body {
+      padding: 14px 18px 14px 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .news-item .news-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .news-item .news-date {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+    .news-item .news-summary {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ========== 相关推荐标签 ========== */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tag-cloud a {
+      display: inline-block;
+      padding: 8px 18px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 22px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .tag-cloud a:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary-hover);
+      background: var(--color-primary-light);
+      transform: translateY(-1px);
+    }
+    .tag-cloud a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    /* ========== 排行榜 ========== */
+    .rank-list {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--color-border-light);
+      transition: background 0.15s;
+    }
+    .rank-item:last-child { border-bottom: none; }
+    .rank-item:hover { background: #fefcf9; }
+    .rank-item .rank-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+      flex-shrink: 0;
+    }
+    .rank-item .rank-num.top1 { background: #fff3e0; color: #e65100; }
+    .rank-item .rank-num.top2 { background: #e0e0e0; color: #424242; }
+    .rank-item .rank-num.top3 { background: #fbe9e7; color: #bf360c; }
+    .rank-item .rank-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-secondary);
+      flex: 1;
+      min-width: 0;
+    }
+    .rank-item .rank-score {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* ========== 右辅助栏组件 ========== */
+    .sidebar-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+    .sidebar-card:last-child { margin-bottom: 0; }
+    .sidebar-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .sidebar-card ul { list-style: none; }
+    .sidebar-card li {
+      padding: 7px 0;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      border-bottom: 1px solid var(--color-border-light);
+      line-height: 1.5;
+    }
+    .sidebar-card li:last-child { border-bottom: none; }
+    .sidebar-card li a { transition: color 0.15s; }
+    .sidebar-card li a:hover { color: var(--color-primary); }
+    .sidebar-card .side-date {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ========== 页尾 ========== */
+    .site-footer {
+      background: var(--color-secondary);
+      color: rgba(255,255,255,0.75);
+      padding: 48px 0 32px;
+      margin-top: 20px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 36px;
+    }
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .footer-brand .footer-logo svg { width: 30px; height: 30px; }
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--color-primary); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ========== 无结果提示 ========== */
+    .no-result {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      background: var(--color-surface);
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    /* ========== 响应式 ========== */
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 1fr 248px;
+      }
+      .channel-sidebar { display: none; }
+      .hero-inner { grid-template-columns: 1fr 320px; gap: 32px; }
+      .hero-content h1 { font-size: 34px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .category-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 740px) {
+      .notice-bar { font-size: 11px; padding: 0 10px; }
+      .site-header { padding: 0 14px; height: 56px; }
+      .brand { font-size: 18px; }
+      .brand svg { width: 28px; height: 28px; }
+      .header-nav { display: none; }
+      .search-box input { width: 100px; }
+      .container { padding: 0 14px; }
+      .hero { padding: 28px 0 24px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+      .hero-content h1 { font-size: 28px; }
+      .hero-desc { font-size: 14px; }
+      .hero-visual { display: none; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+      .main-layout { grid-template-columns: 1fr; gap: 0; padding: 24px 0 40px; }
+      .aux-sidebar { position: static; margin-top: 32px; }
+      .card-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .comment-grid { grid-template-columns: 1fr; }
+      .deep-analysis { padding: 20px 18px; }
+      .news-item { flex-direction: column; }
+      .news-item .news-thumb { width: 100%; height: 160px; }
+      .news-item .news-body { padding: 12px 16px 16px; }
+      .update-item { flex-wrap: wrap; gap: 6px 10px; padding: 12px 14px; }
+      .update-item .update-name { min-width: 0; }
+      .update-item .update-summary { flex-basis: 100%; }
+      .section-header h2 { font-size: 19px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .guide-step { flex-direction: column; gap: 10px; padding: 16px; }
+      .hero-content h1 { font-size: 26px; }
+    }
+
+    @media (max-width: 380px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .category-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ========== 辅助 ========== */
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+  <!-- ===== 吸顶公告条 ===== -->
+  <div class="notice-bar" role="status">
+    本周新增 18 部秋季新番条目 · 国创《雾山五行·犀川幻紫林》第 6 集已上线
+    <a href="#latest-updates">查看更新</a>
+  </div>
+
+  <!-- ===== 吸顶页头 ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="稀饭动漫首页">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="100" height="100" rx="22" fill="#f5a623"/>
+          <circle cx="50" cy="42" r="26" fill="#ffffff"/>
+          <circle cx="50" cy="42" r="11" fill="#f5a623"/>
+          <ellipse cx="27" cy="68" rx="7" ry="5" fill="#ffffff" opacity="0.9"/>
+          <ellipse cx="73" cy="68" rx="7" ry="5" fill="#ffffff" opacity="0.9"/>
+          <path d="M38 72 Q50 82 62 72" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">稀饭<em>动漫</em></span>
+      </a>
+
+      <nav class="header-nav" aria-label="主题导航">
+        <a href="#new-anime">新番导视</a>
+        <a href="#latest-updates">更新速报</a>
+        <a href="#categories">分类检索</a>
+        <a href="#deep-analysis">深度解析</a>
+        <a href="#faq">常见问答</a>
+        <a href="#rankings">热门榜单</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-box" role="search">
+          <input type="search" id="searchInput" placeholder="搜索条目…" aria-label="搜索动漫条目">
+          <button type="button" id="searchBtn">搜索</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 首屏 ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <h1>稀饭动漫</h1>
+          <p class="hero-desc">
+            汇聚 2026 年秋季新番导视、经典补番路线与国创动态。从《葬送的芙莉莲 第二季》到《雾山五行·犀川幻紫林》，提供具体条目的看点分析、更新速报、类型对比与消费顺序建议，帮助你在每季数十部作品中找到值得投入时间的那一部。
+          </p>
+          <div class="hero-actions">
+            <a href="#new-anime" class="btn-primary">
+              浏览秋季新番
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#deep-analysis" class="btn-outline">深度解析</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <svg class="hero-illustration" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f5a623" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#f5a623" stop-opacity="0.04"/>
+              </linearGradient>
+              <linearGradient id="hg2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2c3e50" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#2c3e50" stop-opacity="0.7"/>
+              </linearGradient>
+            </defs>
+            <!-- 屏幕 -->
+            <rect x="60" y="40" width="280" height="180" rx="14" fill="url(#hg1)" stroke="#f5a623" stroke-width="1.5" stroke-opacity="0.3"/>
+            <rect x="80" y="60" width="240" height="140" rx="8" fill="#fff" stroke="#e8e2dc" stroke-width="1"/>
+            <!-- 播放按钮 -->
+            <circle cx="200" cy="130" r="30" fill="#f5a623" opacity="0.15"/>
+            <polygon points="192,118 192,142 212,130" fill="#f5a623"/>
+            <!-- 装饰线条 -->
+            <line x1="100" y1="168" x2="180" y2="168" stroke="#f5a623" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+            <line x1="100" y1="178" x2="150" y2="178" stroke="#f5a623" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+            <!-- 底座 -->
+            <rect x="150" y="220" width="100" height="8" rx="4" fill="#2c3e50" opacity="0.15"/>
+            <rect x="120" y="228" width="160" height="6" rx="3" fill="#2c3e50" opacity="0.1"/>
+            <!-- 星星装饰 -->
+            <circle cx="340" cy="70" r="3" fill="#f5a623" opacity="0.35"/>
+            <circle cx="355" cy="90" r="2" fill="#f5a623" opacity="0.25"/>
+            <circle cx="50" cy="200" r="2.5" fill="#f5a623" opacity="0.3"/>
+            <circle cx="35" cy="180" r="2" fill="#f5a623" opacity="0.2"/>
+            <!-- 对话框 -->
+            <rect x="280" y="50" width="80" height="32" rx="16" fill="#2c3e50" opacity="0.85"/>
+            <text x="320" y="71" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">追番中</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 主内容区（三栏门户） ===== -->
+  <div class="container">
+    <div class="main-layout">
+
+      <!-- 左频道索引 -->
+      <aside class="channel-sidebar" aria-label="频道索引">
+        <nav class="channel-nav">
+          <h2>频道索引</h2>
+          <ul>
+            <li><a href="#new-anime"><span class="nav-dot"></span>秋季新番</a></li>
+            <li><a href="#latest-updates"><span class="nav-dot"></span>更新速报</a></li>
+            <li><a href="#categories"><span class="nav-dot"></span>类型检索</a></li>
+            <li><a href="#deep-analysis"><span class="nav-dot"></span>深度解析</a></li>
+            <li><a href="#viewing-guide"><span class="nav-dot"></span>补番路线</a></li>
+            <li><a href="#faq"><span class="nav-dot"></span>常见问答</a></li>
+            <li><a href="#comments"><span class="nav-dot"></span>观众评论</a></li>
+            <li><a href="#news"><span class="nav-dot"></span>相关资讯</a></li>
+            <li><a href="#related-tags"><span class="nav-dot"></span>延伸方向</a></li>
+            <li><a href="#rankings"><span class="nav-dot"></span>热门榜单</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- 中间主内容 -->
+      <main class="main-content">
+
+        <!-- 1. 主题领域概览 -->
+        <section class="section" id="overview">
+          <div class="section-header">
+            <h2>秋季新番与经典补番概览</h2>
+          </div>
+          <div class="overview-text">
+            <p>
+              2026 年秋季档（10 月—12 月）已进入中段，本季共有 47 部新番陆续开播，涵盖<strong>奇幻冒险、悬疑推理、日常治愈、热血战斗</strong>等主要方向。其中《葬送的芙莉莲 第二季》延续一级魔法使考试篇的高口碑走势，《药屋少女的呢喃 第三季》进入后宫篇新章，而国创方面《雾山五行·犀川幻紫林》以水墨打斗与五行设定持续领跑讨论热度。
+            </p>
+            <p>
+              补番方向同样活跃：2026 年迎来多部经典作品的周年重制或续作官宣，包括《钢之炼金术师》20 周年特别篇、《凉宫春日的忧郁》全新动画企划。对于刚开始接触日本动画或国创作品的观众，建议先从<strong>12—24 集、单季完结</strong>的作品入手，如《奇巧计程车》《比宇宙更远的地方》，再逐步进入长篇连载。
+            </p>
+            <p>
+              本季值得留意的类型变化：异世界题材整体数量下降，<strong>悬疑推理与职场日常</strong>占比上升；制作层面，3DCG 与传统手绘的混合使用在《宝石之国》新作中进一步成熟。选择追番时，可优先关注制作公司履历、系列构成脚本家与音乐担当三个维度。
+            </p>
+          </div>
+        </section>
+
+        <!-- 2. 精选内容推荐 -->
+        <section class="section" id="new-anime">
+          <div class="section-header">
+            <h2>秋季新番精选推荐</h2>
+            <a href="#rankings" class="more-link">查看热度榜 →</a>
+          </div>
+          <div class="card-grid">
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/frieren-s2-01/400/300" alt="葬送的芙莉莲 第二季 动画封面" width="400" height="300" loading="lazy">
+                <span class="card-badge">更新至第 8 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">葬送的芙莉莲 第二季</h3>
+                <div class="card-tags">
+                  <span class="tag">奇幻</span>
+                  <span class="tag">冒险</span>
+                  <span class="tag">治愈</span>
+                </div>
+                <p class="card-desc">一级魔法使考试篇进入最终阶段，芙莉莲与菲伦的师徒线在实战中展开。本季对魔法体系与时间跨度的处理更加细腻。</p>
+                <div class="card-meta">
+                  <span>MADHOUSE</span>
+                  <span class="score">9.4</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/wushan-xichuan-02/400/300" alt="雾山五行 犀川幻紫林 水墨场景" width="400" height="300" loading="lazy">
+                <span class="card-badge">更新至第 6 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">雾山五行·犀川幻紫林</h3>
+                <div class="card-tags">
+                  <span class="tag">国创</span>
+                  <span class="tag">水墨</span>
+                  <span class="tag">热血</span>
+                </div>
+                <p class="card-desc">犀川一战揭开五行封印的新线索，打斗作画保持手绘水墨风格。文戏比重增加，对妖与人之间的立场展开更具体的讨论。</p>
+                <div class="card-meta">
+                  <span>六道无鱼</span>
+                  <span class="score">9.2</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/kusuriya-s3-03/400/300" alt="药屋少女的呢喃 第三季 宫廷场景" width="400" height="300" loading="lazy">
+                <span class="card-badge">更新至第 7 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">药屋少女的呢喃 第三季</h3>
+                <div class="card-tags">
+                  <span class="tag">悬疑</span>
+                  <span class="tag">宫廷</span>
+                  <span class="tag">推理</span>
+                </div>
+                <p class="card-desc">猫猫进入后宫篇后，新案件围绕香料与药材流通展开。本季对中药药理与宫廷权力结构的结合更紧密，推理节奏稳健。</p>
+                <div class="card-meta">
+                  <span>TOHO animation</span>
+                  <span class="score">9.1</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/odd-taxi-04/400/300" alt="奇巧计程车 动物角色群像" width="400" height="300" loading="lazy">
+                <span class="card-badge">全 13 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">奇巧计程车</h3>
+                <div class="card-tags">
+                  <span class="tag">悬疑</span>
+                  <span class="tag">群像</span>
+                  <span class="tag">社会派</span>
+                </div>
+                <p class="card-desc">以出租车司机小户川的视角串联起一桩失踪案，动物拟人外壳下讨论网络舆论与孤独感。适合偏好慢热推理的观众补番。</p>
+                <div class="card-meta">
+                  <span>P.I.C.S.</span>
+                  <span class="score">9.3</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/sora-yori-05/400/300" alt="比宇宙更远的地方 南极场景" width="400" height="300" loading="lazy">
+                <span class="card-badge">全 13 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">比宇宙更远的地方</h3>
+                <div class="card-tags">
+                  <span class="tag">青春</span>
+                  <span class="tag">旅行</span>
+                  <span class="tag">治愈</span>
+                </div>
+                <p class="card-desc">四名少女前往南极的公路式青春故事，对“出发”与“告别”的处理克制而具体。适合作为日常治愈类补番的首选之一。</p>
+                <div class="card-meta">
+                  <span>MADHOUSE</span>
+                  <span class="score">9.2</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="card-cover">
+                <img src="https://picsum.photos/seed/hoshiai-06/400/300" alt="星合之空 软式网球场景" width="400" height="300" loading="lazy">
+                <span class="card-badge">全 12 集</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">星合之空</h3>
+                <div class="card-tags">
+                  <span class="tag">运动</span>
+                  <span class="tag">成长</span>
+                  <span class="tag">家庭</span>
+                </div>
+                <p class="card-desc">软式网球部为存续而战，同时触及家庭暴力与自我认同等议题。运动作画扎实，文戏部分对青少年心理的刻画具体。</p>
+                <div class="card-meta">
+                  <span>8bit</span>
+                  <span class="score">8.8</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- 3. 最新更新 / 动态 -->
+        <section class="section" id="latest-updates">
+          <div class="section-header">
+            <h2>更新速报与播出动态</h2>
+          </div>
+          <div class="update-list">
+            <div class="update-item">
+              <span class="update-time">今天 09:30</span>
+              <span class="update-name">葬送的芙莉莲 第二季</span>
+              <span class="update-summary">第 8 集已上线，一级魔法使考试最终轮对战分组公布。</span>
+              <span class="update-tag">已更新</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">今天 08:15</span>
+              <span class="update-name">雾山五行·犀川幻紫林</span>
+              <span class="update-summary">第 6 集上线，犀川封印阵细节与五行相克关系在设定集中补充说明。</span>
+              <span class="update-tag">已更新</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">昨天 21:10</span>
+              <span class="update-name">药屋少女的呢喃 第三季</span>
+              <span class="update-summary">第 7 集播出，新案件“沉香失踪”牵出后宫香料库管理漏洞。</span>
+              <span class="update-tag blue">热播中</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">昨天 19:00</span>
+              <span class="update-name">宝石之国 新作</span>
+              <span class="update-summary">官方公开 3DCG 与手绘混合制作花絮，磷叶石新形态设定图解禁。</span>
+              <span class="update-tag purple">新情报</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">11 月 6 日</span>
+              <span class="update-name">钢之炼金术师 20 周年特别篇</span>
+              <span class="update-summary">特别篇剧本完成，聚焦霍恩海姆与瓶中小人的早年交锋。</span>
+              <span class="update-tag purple">新情报</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">11 月 5 日</span>
+              <span class="update-name">凉宫春日的忧郁 全新动画</span>
+              <span class="update-summary">京都动画确认新作企划，系列构成由原作者谷川流监修。</span>
+              <span class="update-tag purple">新情报</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">11 月 4 日</span>
+              <span class="update-name">奇巧计程车 剧场版</span>
+              <span class="update-summary">剧场版新增 15 分钟未公开片段，聚焦矢野的早年经历。</span>
+              <span class="update-tag">已上线</span>
+            </div>
+            <div class="update-item">
+              <span class="update-time">11 月 3 日</span>
+              <span class="update-name">星合之空 特别篇</span>
+              <span class="update-summary">特别篇补完 TV 版未播出的第 13 集，软式网球部全国大赛线收束。</span>
+              <span class="update-tag">已上线</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. 分类入口 -->
+        <section class="section" id="categories">
+          <div class="section-header">
+            <h2>按类型检索</h2>
+          </div>
+          <div class="category-grid">
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">⚔️</span>
+              <span class="cat-name">奇幻冒险</span>
+              <span class="cat-count">14 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🔍</span>
+              <span class="cat-name">悬疑推理</span>
+              <span class="cat-count">9 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🍀</span>
+              <span class="cat-name">日常治愈</span>
+              <span class="cat-count">7 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🔥</span>
+              <span class="cat-name">热血战斗</span>
+              <span class="cat-count">11 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🏸</span>
+              <span class="cat-name">运动竞技</span>
+              <span class="cat-count">5 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">💼</span>
+              <span class="cat-name">职场日常</span>
+              <span class="cat-count">4 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🐉</span>
+              <span class="cat-name">国创专区</span>
+              <span class="cat-count">12 部</span>
+            </a>
+            <a href="#new-anime" class="category-card">
+              <span class="cat-icon" aria-hidden="true">🎬</span>
+              <span class="cat-name">剧场版</span>
+              <span class="cat-count">6 部</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 5. 深度解析正文 -->
+        <section class="section" id="deep-analysis">
+          <div class="section-header">
+            <h2>深度解析：秋季新番的类型分化与选择逻辑</h2>
+          </div>
+          <div class="deep-analysis">
+            <h3>奇幻冒险类的世界观构建差异</h3>
+            <p>
+              本季奇幻冒险方向呈现两种明显路径。<strong>《葬送的芙莉莲 第二季》</strong>属于“后勇者时代”叙事，以时间跨度和日常细节积累情感重量，魔法体系围绕“解析—复制—对抗”展开，观众需要关注的是角色对魔法的理解过程而非单纯战斗结果。另一类如<strong>《雾山五行·犀川幻紫林》</strong>则更接近“设定驱动型”，五行相生相克关系直接影响战斗走向，观看时需要留意设定集中补充的属性对照。
+            </p>
+            <p>
+              选择这类作品时，可以优先看<strong>系列构成是否由原作作者参与</strong>。芙莉莲的动画改编保留了漫画中的静默镜头与时间跳跃，而雾山五行的脚本在打斗间隙插入的立场对话，是理解后续阵营变化的关键。
+            </p>
+
+            <h3>悬疑推理的线索密度与观看门槛</h3>
+            <p>
+              《药屋少女的呢喃 第三季》与《奇巧计程车》代表了两种推理密度。前者以单元案件推进，每集围绕一个具体药材或宫廷事件展开，线索在单集内基本收束，适合分段观看；后者采用群像交叉叙事，出租车行车记录仪、广播节目、社交网络账号三条线索并行，需要连续观看才能拼出完整时间线。
+            </p>
+            <ul>
+              <li><strong>低门槛入手</strong>：药屋少女的呢喃——单集案件独立性强，药理知识通过角色对话解释。</li>
+              <li><strong>高投入回报</strong>：奇巧计程车——第 4 集后线索开始交叉，建议至少连续看 3 集再判断。</li>
+              <li><strong>中间选项</strong>：本季《侦探已经死了 第二季》以短篇连作形式呈现，单集 24 分钟可独立理解。</li>
+            </ul>
+
+            <h3>运动竞技类的真实感与戏剧化平衡</h3>
+            <p>
+              《星合之空》在软式网球规则上做了具体还原，包括发球顺序、抢七计分与场地轮换。但真正让它区别于常规运动番的，是对家庭环境与青少年心理状态的描写——比赛胜负往往不是单集终点。补番时建议对照 TV 版与特别篇：TV 版第 12 集收束在地区预选，特别篇补完的全国大赛线才真正回应了前期埋下的角色关系。
+            </p>
+
+            <h3>国创作品的水墨语言与叙事节奏</h3>
+            <p>
+              《雾山五行》系列的水墨打斗在国产动画中辨识度较高，犀川篇进一步将背景绘制与角色动作分层处理，高速战斗时保留笔触飞白。叙事上，本季增加了妖阵营的内部视角，观众需要同时跟踪人界与妖界两条时间线。如果偏好单线叙事，可以先看导演访谈中梳理的时间轴，再回看正片。
+            </p>
+            <p>
+              另一部值得对照的国创是<strong>《时光代理人 第三季》</strong>，以照片穿越为核心机制，每集围绕一个委托展开，但主线伏笔贯穿全季。与雾山五行的“设定先行”不同，时光代理人更依赖情感共鸣与当代都市经验。
+            </p>
+
+            <h3>补番顺序的实际建议</h3>
+            <p>
+              对于时间有限的观众，可以按以下优先级安排：先看当季正在更新且单集独立性强的一部（如药屋少女），同步补一部已完结的高完成度作品（如奇巧计程车或比宇宙更远的地方），最后根据兴趣选择是否进入长篇或系列作品。长篇补番建议每 12 集为一个单元，中间穿插一部短篇调节节奏。
+            </p>
+          </div>
+        </section>
+
+        <!-- 6. 体验指南 / 消费路径 -->
+        <section class="section" id="viewing-guide">
+          <div class="section-header">
+            <h2>补番与追番的消费路径</h2>
+          </div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h3>先确定单次可投入的时间块</h3>
+                <p>如果每次只能看 1—2 集，优先选择单集案件独立或日常单元剧结构的作品，如《药屋少女的呢喃》《奇巧计程车》前段。如果周末有连续 3 小时以上，可以进入《葬送的芙莉莲》这类需要沉浸时间跨度的作品。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h3>判断一部作品值不值得继续投入</h3>
+                <p>看三个信号：第 3 集是否建立了明确的叙事目标；主要角色的行动是否有具体动机而非仅靠设定推动；制作层面是否在至少一个维度（作画、音乐、脚本）保持稳定。如果第 4 集仍没有吸引你的具体情节点，可以暂时搁置。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h3>类似条目之间的比较方法</h3>
+                <p>同类型作品比较时，优先看“约束条件”：芙莉莲受限于时间跨度与记忆主题，奇巧计程车受限于动物拟人外壳下的社会派表达，星合之空受限于运动规则与家庭议题的双线平衡。先确认自己更接受哪种约束，再决定是否进入该作品。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h3>长篇系列的切入节点</h3>
+                <p>《钢之炼金术师》20 周年特别篇可作为独立入口，不需要先补完 64 集 TV 版；《凉宫春日的忧郁》新作建议先看 2006 版第 1 集与 2009 版“漫无止境的八月”段落，再决定是否进入剧场版《消失》。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. FAQ -->
+        <section class="section" id="faq">
+          <div class="section-header">
+            <h2>常见问题</h2>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>秋季新番一般多久更新一集？</summary>
+              <div class="faq-answer">日本 TV 动画常规为每周一集，按制作委员会排期在固定星期播出。本季《葬送的芙莉莲 第二季》为周五更新，《药屋少女的呢喃 第三季》为周四更新，国创《雾山五行·犀川幻紫林》为双周更新。遇到总集篇或停播回会提前一周公告。</div>
+            </details>
+            <details class="faq-item">
+              <summary>《葬送的芙莉莲》和《雾山五行》有什么区别？</summary>
+              <div class="faq-answer">两者都属于奇幻冒险方向，但叙事重心不同。芙莉莲以漫长时间跨度下的日常与记忆为核心，战斗服务于角色关系；雾山五行以五行设定与手绘水墨打斗为驱动，文戏用于补充阵营立场。前者适合慢节奏沉浸，后者适合对作画与设定密度有偏好的观众。</div>
+            </details>
+            <details class="faq-item">
+              <summary>第一次接触日本动画，从哪部开始看比较好？</summary>
+              <div class="faq-answer">建议从 12—13 集单季完结、叙事完整的作品入手。《比宇宙更远的地方》适合偏好青春旅行题材的观众；《奇巧计程车》适合喜欢悬疑与社会派叙事的观众；《星合之空》适合对运动与成长议题感兴趣的人。三部都不需要前置知识。</div>
+            </details>
+            <details class="faq-item">
+              <summary>《奇巧计程车》的动物拟人设定有什么作用？</summary>
+              <div class="faq-answer">动物外观在剧中承担叙事诡计功能，也是区分角色身份与阵营的视觉线索。看到中后段会发现部分角色的动物形态与真实身份存在对应关系，这一设定并非单纯风格选择，而是与结局揭示直接相关。</div>
+            </details>
+            <details class="faq-item">
+              <summary>国创动画和日本 TV 动画在更新节奏上有什么不同？</summary>
+              <div class="faq-answer">国创作品常见双周更或周更，单集时长从 15 分钟到 25 分钟不等，部分平台采用会员抢先看模式。日本 TV 动画通常为周更 24 分钟标准时长，按季度（12—13 集）或半年（24—26 集）划分。选择追更时可以先确认平台的播出时间表。</div>
+            </details>
+            <details class="faq-item">
+              <summary>补长篇动画有什么实际的节奏建议？</summary>
+              <div class="faq-answer">以 12 集为一个单元，每完成一个单元暂停，用一部 1—2 小时剧场版或短篇作品调节。长篇中段容易进入原创剧情或节奏放缓，可以对照原作漫画的章节划分决定是否跳过。例如《钢之炼金术师》FA 版第 1—14 集对应漫画前几卷，节奏紧凑。</div>
+            </details>
+          </div>
+        </section>
+
+        <!-- 8. 用户评论 -->
+        <section class="section" id="comments">
+          <div class="section-header">
+            <h2>观众评论</h2>
+          </div>
+          <div class="comment-grid">
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">林</div>
+                <span class="nickname">林间有风</span>
+                <span class="comment-time">11 月 8 日</span>
+              </div>
+              <p class="comment-text">芙莉莲第二季第 8 集的考试分组太关键了，菲伦和康涅的对位基本决定了后续师徒线的走向。这一集的分镜很稳。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">陈</div>
+                <span class="nickname">陈小北</span>
+                <span class="comment-time">11 月 7 日</span>
+              </div>
+              <p class="comment-text">雾山五行犀川篇的文戏比第一季多，但妖阵营的视角补上之后，整个五行封印的逻辑清楚了不少。水墨打斗还是独一档。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">周</div>
+                <span class="nickname">周周不加班</span>
+                <span class="comment-time">11 月 6 日</span>
+              </div>
+              <p class="comment-text">药屋少女第三季的香料案比前两季更贴近后宫日常，猫猫查案的过程很具体，没有为了反转而反转。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">吴</div>
+                <span class="nickname">吴铭仕</span>
+                <span class="comment-time">11 月 5 日</span>
+              </div>
+              <p class="comment-text">奇巧计程车是今年补得最值的一部，第 4 集之后线索交叉才开始真正有意思。建议不要跳着看。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">赵</div>
+                <span class="nickname">赵小满</span>
+                <span class="comment-time">11 月 4 日</span>
+              </div>
+              <p class="comment-text">比宇宙更远的地方第 12 集那句“出发吧”每次看都有触动。日常治愈类里节奏控制得很舒服的一部。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">孙</div>
+                <span class="nickname">孙不二</span>
+                <span class="comment-time">11 月 3 日</span>
+              </div>
+              <p class="comment-text">星合之空特别篇补完全国大赛线之后，整个故事完整了很多。TV 版断在第 12 集确实有点可惜。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">李</div>
+                <span class="nickname">李木子</span>
+                <span class="comment-time">11 月 2 日</span>
+              </div>
+              <p class="comment-text">钢炼 20 周年特别篇如果真按霍恩海姆早年线来做，会比单纯回顾更有看头。等具体播出时间。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">郑</div>
+                <span class="nickname">郑在追番</span>
+                <span class="comment-time">11 月 1 日</span>
+              </div>
+              <p class="comment-text">凉宫新作官宣了，但京都动画现在的产能不知道要等多久。先把 2009 版翻出来重温。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">王</div>
+                <span class="nickname">王半仙</span>
+                <span class="comment-time">10 月 31 日</span>
+              </div>
+              <p class="comment-text">宝石之国新作的混合制作花絮看了，磷叶石新形态的设定图比预想中更复杂。3DCG 和手绘的结合确实在进步。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">黄</div>
+                <span class="nickname">黄昏时分</span>
+                <span class="comment-time">10 月 30 日</span>
+              </div>
+              <p class="comment-text">时光代理人第三季的委托案件质量有起伏，但主线伏笔一直在推进。适合和雾山五行交替看，两种节奏。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">刘</div>
+                <span class="nickname">刘星回</span>
+                <span class="comment-time">10 月 29 日</span>
+              </div>
+              <p class="comment-text">秋季档异世界确实少了，悬疑和职场日常多了，这个变化对口味偏写实的观众比较友好。</p>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-head">
+                <div class="avatar">张</div>
+                <span class="nickname">张慢速</span>
+                <span class="comment-time">10 月 28 日</span>
+              </div>
+              <p class="comment-text">补番按 12 集一个单元这个建议挺实用的，之前连着看长篇确实容易疲劳，中间插一部剧场版会好很多。</p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 9. 相关资讯 -->
+        <section class="section" id="news">
+          <div class="section-header">
+            <h2>相关资讯</h2>
+          </div>
+          <div class="news-list">
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-frieren-s2-08/600/400" alt="葬送的芙莉莲 第二季 考试篇场景" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《葬送的芙莉莲 第二季》考试篇进入最终轮，第 8 集分镜公开</h3>
+                <div class="news-date">2026-11-08</div>
+                <p class="news-summary">官方公开第 8 集部分分镜稿，一级魔法使考试最终轮的分组与场地设定同步解禁，涉及芙莉莲与菲伦的师徒对位。</p>
+              </div>
+            </article>
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-wushan-06/600/400" alt="雾山五行 犀川幻紫林 水墨打斗场景" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《雾山五行·犀川幻紫林》设定集补充五行相克表，第 6 集妖阵营视角引讨论</h3>
+                <div class="news-date">2026-11-07</div>
+                <p class="news-summary">官方设定集新增五行属性对照与犀川封印阵结构图，第 6 集从妖阵营切入的叙事方式在社区引发对后续阵营变化的推测。</p>
+              </div>
+            </article>
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-kusuriya-s3/600/400" alt="药屋少女的呢喃 第三季 宫廷香料库" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《药屋少女的呢喃 第三季》第 7 集“沉香失踪”案梳理后宫香料流通线</h3>
+                <div class="news-date">2026-11-06</div>
+                <p class="news-summary">本集围绕沉香来源与后宫香料库管理展开，猫猫的调查路径涉及药材采购记录与宫女轮值表，案件在单集内基本收束。</p>
+              </div>
+            </article>
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-odd-taxi-movie/600/400" alt="奇巧计程车 剧场版 新增片段" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《奇巧计程车》剧场版新增 15 分钟片段，矢野早年经历补完</h3>
+                <div class="news-date">2026-11-05</div>
+                <p class="news-summary">剧场版在 TV 版基础上增加矢野的早年经历段落，解释其在正片中部分行为动机。该片段也涉及动物形态与真实身份的对应关系。</p>
+              </div>
+            </article>
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-hagane-20th/600/400" alt="钢之炼金术师 20 周年特别篇 视觉图" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《钢之炼金术师》20 周年特别篇剧本完成，聚焦霍恩海姆早年线</h3>
+                <div class="news-date">2026-11-04</div>
+                <p class="news-summary">特别篇以霍恩海姆与瓶中小人的早年交锋为主轴，制作方表示不会简单回顾 TV 版内容，而是补充漫画中未详细展开的段落。</p>
+              </div>
+            </article>
+            <article class="news-item">
+              <div class="news-thumb">
+                <img src="https://picsum.photos/seed/news-hoshiai-sp/600/400" alt="星合之空 特别篇 全国大赛场景" width="600" height="400" loading="lazy">
+              </div>
+              <div class="news-body">
+                <h3 class="news-title">《星合之空》特别篇补完第 13 集，全国大赛线收束</h3>
+                <div class="news-date">2026-11-03</div>
+                <p class="news-summary">特别篇补完 TV 版未播出的第 13 集，软式网球部全国大赛线在特别篇中收束，同时回应了前期家庭环境与角色关系的伏笔。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 10. 相关推荐 -->
+        <section class="section" id="related-tags">
+          <div class="section-header">
+            <h2>延伸方向与相关条目</h2>
+          </div>
+          <div class="tag-cloud">
+            <a href="#new-anime">后勇者时代奇幻</a>
+            <a href="#new-anime">动物拟人群像悬疑</a>
+            <a href="#new-anime">宫廷药理推理</a>
+            <a href="#new-anime">软式网球运动番</a>
+            <a href="#new-anime">水墨打斗国创</a>
+            <a href="#new-anime">青春旅行治愈</a>
+            <a href="#new-anime">时间循环叙事</a>
+            <a href="#new-anime">职场日常单元剧</a>
+          </div>
+        </section>
+
+        <!-- 11. 补充板块：热门榜单 -->
+        <section class="section" id="rankings">
+          <div class="section-header">
+            <h2>本周热度榜</h2>
+          </div>
+          <div class="rank-list">
+            <div class="rank-item">
+              <span class="rank-num top1">1</span>
+              <span class="rank-name">葬送的芙莉莲 第二季</span>
+              <span class="rank-score">9.4</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank-num top2">2</span>
+              <span class="rank-name">雾山五行·犀川幻紫林</span>
+              <span class="rank-score">9.2</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank-num top3">3</span>
+              <span class="rank-name">奇巧计程车</span>
+              <span class="rank-score">9.3</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank-num">4</span>
+              <span class="rank-name">药屋少女的呢喃 第三季</span>
+              <span class="rank-score">9.1</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank-num">5</span>
+              <span class="rank-name">比宇宙更远的地方</span>
+              <span class="rank-score">9.2</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank-num">6</span>
+              <span class="rank-name">星合之空</span>
+              <span class="rank-score">8.8</span>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- 右辅助栏 -->
+      <aside class="aux-sidebar" aria-label="辅助信息">
+        <div class="sidebar-card">
+          <h3>近期更新日历</h3>
+          <ul>
+            <li><a href="#latest-updates">葬送的芙莉莲 第二季 · 第 8 集</a><span class="side-date">今天 09:30</span></li>
+            <li><a href="#latest-updates">雾山五行·犀川幻紫林 · 第 6 集</a><span class="side-date">今天 08:15</span></li>
+            <li><a href="#latest-updates">药屋少女的呢喃 第三季 · 第 7 集</a><span class="side-date">昨天 21:10</span></li>
+            <li><a href="#latest-updates">宝石之国 新作 · 制作花絮</a><span class="side-date">昨天 19:00</span></li>
+            <li><a href="#latest-updates">钢之炼金术师 20 周年特别篇 · 剧本完成</a><span class="side-date">11 月 6 日</span></li>
+          </ul>
+        </div>
+        <div class="sidebar-card">
+          <h3>按类型快速定位</h3>
+          <ul>
+            <li><a href="#categories">奇幻冒险 · 14 部</a></li>
+            <li><a href="#categories">悬疑推理 · 9 部</a></li>
+            <li><a href="#categories">日常治愈 · 7 部</a></li>
+            <li><a href="#categories">热血战斗 · 11 部</a></li>
+            <li><a href="#categories">运动竞技 · 5 部</a></li>
+            <li><a href="#categories">国创专区 · 12 部</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-card">
+          <h3>补番入口</h3>
+          <ul>
+            <li><a href="#viewing-guide">单季完结作品推荐</a></li>
+            <li><a href="#viewing-guide">长篇系列切入节点</a></li>
+            <li><a href="#viewing-guide">同类型比较方法</a></li>
+            <li><a href="#deep-analysis">秋季类型分化解析</a></li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ===== 页尾 ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="100" height="100" rx="22" fill="#f5a623"/>
+              <circle cx="50" cy="42" r="26" fill="#ffffff"/>
+              <circle cx="50" cy="42" r="11" fill="#f5a623"/>
+              <ellipse cx="27" cy="68" rx="7" ry="5" fill="#ffffff" opacity="0.9"/>
+              <ellipse cx="73" cy="68" rx="7" ry="5" fill="#ffffff" opacity="0.9"/>
+              <path d="M38 72 Q50 82 62 72" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </svg>
+            稀饭动漫
+          </div>
+          <p>聚焦秋季新番导视、经典补番路线与国创动态，提供具体条目的看点分析、类型对比与消费顺序建议。</p>
+        </div>
+        <div class="footer-col">
+          <h4>新番导视</h4>
+          <ul>
+            <li><a href="#new-anime">秋季新番精选</a></li>
+            <li><a href="#latest-updates">更新速报</a></li>
+            <li><a href="#categories">类型检索</a></li>
+            <li><a href="#rankings">本周热度榜</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>深度内容</h4>
+          <ul>
+            <li><a href="#deep-analysis">类型分化解析</a></li>
+            <li><a href="#viewing-guide">补番消费路径</a></li>
+            <li><a href="#faq">常见问答</a></li>
+            <li><a href="#comments">观众评论</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>延伸方向</h4>
+          <ul>
+            <li><a href="#related-tags">后勇者时代奇幻</a></li>
+            <li><a href="#related-tags">动物拟人悬疑</a></li>
+            <li><a href="#related-tags">宫廷药理推理</a></li>
+            <li><a href="#related-tags">水墨打斗国创</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 稀饭动漫 · 内容聚合示例页面</span>
+        <span>部分内容为示例数据，仅用于展示页面结构</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== 轻量交互脚本 ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // 搜索过滤：对卡片标题与描述做本地匹配
+      var searchInput = document.getElementById('searchInput');
+      var searchBtn = document.getElementById('searchBtn');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.anime-card'));
+      var cardGrid = document.querySelector('.card-grid');
+
+      // 创建无结果提示
+      var noResult = document.createElement('div');
+      noResult.className = 'no-result';
+      noResult.textContent = '没有找到匹配的条目，请尝试其他关键词。';
+      if (cardGrid && cardGrid.parentNode) {
+        cardGrid.parentNode.insertBefore(noResult, cardGrid.nextSibling);
+      }
+
+      function doSearch() {
+        var q = searchInput.value.trim().toLowerCase();
+        if (!q) {
+          cards.forEach(function(c) { c.style.display = ''; });
+          if (noResult) noResult.style.display = 'none';
+          return;
+        }
+        var visibleCount = 0;
+        cards.forEach(function(card) {
+          var title = (card.querySelector('.card-title') || {}).textContent || '';
+          var desc = (card.querySelector('.card-desc') || {}).textContent || '';
+          var tags = Array.prototype.map.call(card.querySelectorAll('.tag'), function(t) { return t.textContent; }).join(' ');
+          var text = (title + ' ' + desc + ' ' + tags).toLowerCase();
+          if (text.indexOf(q) !== -1) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        if (noResult) {
+          noResult.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      }
+
+      if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            doSearch();
+          }
+        });
+        searchInput.addEventListener('input', function() {
+          if (searchInput.value.trim() === '') {
+            cards.forEach(function(c) { c.style.display = ''; });
+            if (noResult) noResult.style.display = 'none';
+          }
+        });
+      }
+
+      // 为所有 /# 锚点设置平滑滚动（已通过 CSS scroll-padding 预留）
+      document.querySelectorAll('a[href^="/#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.indexOf('/#') === 0) {
+            var id = href.slice(2);
+            var target = document.getElementById(id);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+              </html>
