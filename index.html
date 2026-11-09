@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日大赛官网 - 赛事聚合与赛程追踪</title>
+  <meta name="description" content="每日大赛官网，聚合每日更新的电竞赛事赛程、对战结果、积分榜与选手动态。涵盖英雄联盟、无畏契约、CS2 等比赛条目，适合关注每日赛果与选手表现的观众。">
+  <meta name="keywords" content="电竞赛程，每日赛果，积分榜，选手数据，对战复盘">
+  <style>
+    /* ---------- 全局变量与重置 ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --panel: #f0f4fe;
+      --border: #dce3f0;
+      --text-main: #0b1a30;
+      --text-secondary: #3e4e68;
+      --text-muted: #6b7b96;
+      --primary: #1a4b9c;
+      --primary-light: #e3ebfa;
+      --accent: #e55c20;
+      --accent-light: #fef0e9;
+      --success: #0f7b4b;
+      --shadow-sm: 0 2px 6px rgba(0, 20, 40, 0.04);
+      --shadow-md: 0 6px 18px rgba(0, 20, 40, 0.07);
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-pill: 999px;
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --sticky-offset: 112px; /* 公告条 + 页头 高度预估 */
+    }
+
+    html {
+      scroll-padding-top: var(--sticky-offset);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    ul, ol {
+      list-style: none;
+    }
+
+    /* ---------- 吸顶公告条 + 页头 ---------- */
+    .sticky-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .announcement-bar {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.9rem;
+      padding: 0.45rem 1rem;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
+
+    .announcement-bar a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      gap: 1.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .brand svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--primary);
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .main-nav a {
+      color: var(--text-secondary);
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .main-nav a:hover {
+      border-bottom-color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* ---------- 首屏 ---------- */
+    .hero {
+      background: linear-gradient(135deg, #edf2fc 0%, #ffffff 100%);
+      padding: 2.8rem 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      flex: 1 1 480px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.3rem 1rem;
+      border-radius: var(--radius-pill);
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.3px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin-bottom: 1.8rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      cursor: default; /* 无实际跳转，仅作视觉入口 */
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .hero-visual {
+      flex: 0 0 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+    }
+
+    /* ---------- 主内容三栏门户 ---------- */
+    .page-grid {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 2.5rem;
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr) 260px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* 左侧频道索引 */
+    .channel-sidebar {
+      position: sticky;
+      top: calc(var(--sticky-offset) + 16px);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 0.8rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .channel-sidebar h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+      padding-left: 0.6rem;
+    }
+
+    .channel-list li {
+      margin-bottom: 0.1rem;
+    }
+
+    .channel-list a {
+      display: block;
+      padding: 0.5rem 0.8rem;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.1s;
+    }
+
+    .channel-list a:hover {
+      background: var(--panel);
+      text-decoration: none;
+    }
+
+    /* 中间主内容 */
+    .main-content {
+      min-width: 0;
+    }
+
+    /* 右侧辅助栏 */
+    .aux-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .aux-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .aux-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+
+    /* ---------- 板块通用 ---------- */
+    .section {
+      margin-bottom: 2.8rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      background: #d9e2f0;
+    }
+
+    .card-body {
+      padding: 0.9rem 1rem 1.1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .tag {
+      background: var(--panel);
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .tag-accent {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0.9rem;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+      margin-top: auto;
+    }
+
+    /* 紧凑列表 */
+    .compact-list {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .compact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.85rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .compact-item:last-child {
+      border-bottom: none;
+    }
+
+    .compact-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 60px;
+    }
+
+    .compact-title {
+      font-weight: 600;
+      color: var(--text-main);
+      flex: 1;
+    }
+
+    .compact-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    @media (min-width: 600px) {
+      .compact-desc {
+        display: inline;
+      }
+    }
+
+    /* 分类入口 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+    }
+
+    .category-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 0.6rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      transition: background 0.15s;
+    }
+
+    .category-item:hover {
+      background: var(--panel);
+      text-decoration: none;
+    }
+
+    /* 深度解析正文 */
+    .article-body {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .article-body h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.7rem;
+      color: var(--primary);
+    }
+
+    .article-body h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .article-body p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0.8rem 0 1.2rem 1.4rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-body li {
+      margin-bottom: 0.4rem;
+    }
+
+    .article-body ul li {
+      list-style: disc;
+    }
+
+    .article-body ol li {
+      list-style: decimal;
+    }
+
+    /* 体验指南——编号步骤 */
+    .guide-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .guide-step {
+      display: flex;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.2rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .step-text strong {
+      color: var(--text-main);
+    }
+
+    /* FAQ 折叠 */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.2rem 1rem;
+    }
+
+    summary {
+      font-weight: 600;
+      padding: 0.9rem 0;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: 400;
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    details p {
+      padding: 0 0 1rem 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* 用户评论 */
+    .comment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .comment-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      font-size: 0.88rem;
+    }
+
+    .comment-user {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+
+    .comment-text {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 相关资讯 */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .news-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.1rem;
+    }
+
+    .news-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .news-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .news-summary {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 相关推荐标签 */
+    .rec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .rec-tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: background 0.1s;
+    }
+
+    .rec-tag:hover {
+      background: var(--panel);
+      text-decoration: none;
+    }
+
+    /* 热门榜单（补充板块） */
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 1rem;
+    }
+
+    .rank-num {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 1.1rem;
+      min-width: 28px;
+    }
+
+    .rank-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+
+    .rank-score {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* 页尾 */
+    .site-footer {
+      background: #0b1a30;
+      color: #cbd5e1;
+      padding: 2.5rem 1.5rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-brand .brand-text {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      color: #fff;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-col a {
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 1.5rem auto 0;
+      padding-top: 1.2rem;
+      border-top: 1px solid #1e2e45;
+      font-size: 0.75rem;
+      color: #64748b;
+      text-align: center;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width: 1024px) {
+      .page-grid {
+        grid-template-columns: 1fr 260px;
+      }
+
+      .channel-sidebar {
+        display: none;
+      }
+
+      .main-nav {
+        gap: 1rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .aux-sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+      }
+
+      .hero {
+        padding: 1.8rem 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        letter-spacing: -1px;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .page-grid {
+        padding: 1.2rem 1rem;
+      }
+
+      .aux-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .article-body {
+        padding: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 辅助类 */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+  <!-- 吸顶公告条 + 页头 -->
+  <div class="sticky-wrapper">
+    <div class="announcement-bar">
+      11 月 8 日新增 8 场赛事对阵 · <a href="/#latest">查看今日赛程</a>
+    </div>
+    <header class="site-header">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="36" height="36" rx="10" fill="#1a4b9c"/>
+          <path d="M10 20 L18 12 L22 16 L30 10 L30 26 L10 26 Z" fill="#ffffff" opacity="0.9"/>
+          <circle cx="22" cy="20" r="4" fill="#e55c20"/>
+        </svg>
+        <span class="brand-text">每日大赛官网</span>
+      </div>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="/#schedule">今日赛程</a>
+        <a href="/#results">赛果速递</a>
+        <a href="/#standings">积分榜</a>
+        <a href="/#players">选手数据</a>
+        <a href="/#analysis">深度复盘</a>
+        <a href="/#news">赛事资讯</a>
+      </nav>
+    </header>
+  </div>
+
+  <!-- 首屏 -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="hero-badge">2026 冬季赛 · 每日更新</span>
+        <h1>每日大赛官网</h1>
+        <p class="hero-desc">
+          聚合英雄联盟、无畏契约、CS2 等电竞赛事的每日赛程、对战结果、积分排名与选手数据。追踪具体比赛条目、查看每日更新战报、对比战队状态，为关注赛果的观众提供当日可读的赛事信息。
+        </p>
+        <div class="hero-actions">
+          <span class="btn btn-primary">今日 12 场对阵</span>
+          <span class="btn btn-outline">最新战报</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="280" height="160" rx="16" fill="#e3ebfa"/>
+          <rect x="30" y="40" width="110" height="12" rx="6" fill="#1a4b9c"/>
+          <rect x="30" y="62" width="180" height="8" rx="4" fill="#b8c9e8"/>
+          <rect x="30" y="78" width="150" height="8" rx="4" fill="#b8c9e8"/>
+          <rect x="30" y="104" width="80" height="24" rx="12" fill="#1a4b9c" opacity="0.25"/>
+          <rect x="120" y="104" width="80" height="24" rx="12" fill="#1a4b9c" opacity="0.15"/>
+          <circle cx="240" cy="60" r="24" fill="#e55c20" opacity="0.2"/>
+          <circle cx="240" cy="60" r="12" fill="#e55c20"/>
+          <path d="M40 150 L80 130 L120 150 L160 120 L200 145 L240 125" stroke="#1a4b9c" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主内容：三栏门户 -->
+  <div class="page-grid">
+    <!-- 左侧频道索引 -->
+    <aside class="channel-sidebar">
+      <h3>赛事频道</h3>
+      <ul class="channel-list">
+        <li><a href="/#schedule">今日赛程</a></li>
+        <li><a href="/#results">赛果速递</a></li>
+        <li><a href="/#standings">积分榜</a></li>
+        <li><a href="/#players">选手数据</a></li>
+        <li><a href="/#analysis">深度复盘</a></li>
+        <li><a href="/#featured">精选对局</a></li>
+        <li><a href="/#categories">赛事分类</a></li>
+        <li><a href="/#guide">观赛指南</a></li>
+        <li><a href="/#faq">常见问题</a></li>
+        <li><a href="/#comments">观众评论</a></li>
+      </ul>
+    </aside>
+
+    <!-- 中间主内容 -->
+    <main class="main-content">
+      <!-- 1. 主题领域概览 -->
+      <section id="overview" class="section">
+        <div class="section-header">
+          <h2 class="section-title">电竞赛事每日看点</h2>
+        </div>
+        <div class="article-body" style="padding:1.5rem;">
+          <p>
+            每日大赛官网所聚合的赛事内容，涵盖当前主流电竞项目的多个具体方向：英雄联盟职业联赛（LPL）与韩国冠军联赛（LCK）的常规赛对阵，无畏契约 VCT 赛区的挑战赛与季后赛，CS2 的 BLAST 系列赛与 IEM 卡托维兹站，以及 DOTA2 的 ESL One 系列。这些赛事在 2026 年 11 月期间进入冬季赛程密集期，每天有 10—15 场 BO3 或 BO5 对局展开。
+          </p>
+          <p>
+            观众关注的具体内容条目包括：当日对阵表、实时比分与赛后数据面板、战队积分排名变动、选手个人 KDA 与伤害转化率、关键局经济曲线、禁用/选用英雄统计。以 2026 年 11 月 8 日为例，当天进行 LPL 冬季赛 A 组第三轮（JDG 对阵 TES）、LCK 冬季赛 B 组（T1 对阵 GEN）、无畏契约 VCT 太平洋赛区（PRX 对阵 DRX）以及 CS2 BLAST 秋季决赛小组赛（FaZe 对阵 NAVI）等 12 场对局。
+          </p>
+          <p>
+            值得关注的具体选手包括：JDG 中单 Knight 的场均参团率 74.3%，T1 下路 Gumayusi 的 15 分钟补刀差 +18.2，NAVI 狙击手 s1mple 的每回合 AWP 击杀 0.42。这些数据每日随比赛结果更新，构成追踪赛事状态的量化依据。
+          </p>
+        </div>
+      </section>
+
+      <!-- 2. 精选内容推荐 -->
+      <section id="featured" class="section">
+        <div class="section-header">
+          <h2 class="section-title">今日精选对局</h2>
+          <span class="section-sub">2026 年 11 月 8 日 · 8 场焦点战</span>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/lol-jdg-tes08/400/300" width="400" height="300" loading="lazy" alt="JDG 对阵 TES LPL 冬季赛对局封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">英雄联盟</span><span class="tag">LPL</span><span class="tag">BO3</span></div>
+              <h3 class="card-title">JDG vs TES · LPL 冬季赛 A 组</h3>
+              <p class="card-desc">两队争夺 A 组头名，Knight 与 Creme 的中路对线将决定前期节奏。JDG 近期小龙控制率 68%，TES 则依赖下路打开局面。</p>
+              <div class="card-meta"><span>今天 17:00</span><span>热度 98.2万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/lck-t1-gen08/400/300" width="400" height="300" loading="lazy" alt="T1 对阵 GEN LCK 冬季赛对局封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">英雄联盟</span><span class="tag">LCK</span><span class="tag">BO3</span></div>
+              <h3 class="card-title">T1 vs GEN · LCK 冬季赛 B 组</h3>
+              <p class="card-desc">Faker 与 Chovy 的第九次冬季赛交手，GEN 在前期资源置换上效率更高，T1 则擅长通过视野布控拖入后期团战。</p>
+              <div class="card-meta"><span>今天 19:00</span><span>热度 112.5万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/valorant-prx-drx08/400/300" width="400" height="300" loading="lazy" alt="PRX 对阵 DRX 无畏契约太平洋赛区封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">无畏契约</span><span class="tag">VCT 太平洋</span></div>
+              <h3 class="card-title">PRX vs DRX · VCT 太平洋挑战赛</h3>
+              <p class="card-desc">PRX 的激进前压与 DRX 的默认控图形成鲜明对比，Jinggg 与 MaKo 的边路对决值得关注。胜者将锁定季后赛席位。</p>
+              <div class="card-meta"><span>今天 20:30</span><span>热度 76.4万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/cs2-faze-navi08/400/300" width="400" height="300" loading="lazy" alt="FaZe 对阵 NAVI BLAST 秋季决赛封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">CS2</span><span class="tag">BLAST</span></div>
+              <h3 class="card-title">FaZe vs NAVI · BLAST 秋季决赛</h3>
+              <p class="card-desc">s1mple 与 broky 的狙击对决直接影响地图控制。NAVI 在 Nuke 上的胜率 81%，FaZe 则可能优先选择 Ancient。</p>
+              <div class="card-meta"><span>今天 22:00</span><span>热度 89.1万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/dota2-gg-lgd08/400/300" width="400" height="300" loading="lazy" alt="Gaimin Gladiators 对阵 LGD ESL One 封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">DOTA2</span><span class="tag">ESL One</span></div>
+              <h3 class="card-title">GG vs LGD · ESL One 冬季赛</h3>
+              <p class="card-desc">西欧与东欧赛区的碰撞，dyrachyo 的 carry 节奏与 Ame 的后期能力形成对比。BP 阶段对版本热门英雄的争夺将决定走向。</p>
+              <div class="card-meta"><span>昨天 23:40</span><span>热度 63.7万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/lol-blg-wbg08/400/300" width="400" height="300" loading="lazy" alt="BLG 对阵 WBG LPL 冬季赛封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">英雄联盟</span><span class="tag">LPL</span><span class="tag">BO3</span></div>
+              <h3 class="card-title">BLG vs WBG · LPL 冬季赛 C 组</h3>
+              <p class="card-desc">Bin 与 Breathe 的上路对抗是核心看点，BLG 在先锋团胜率 72%，WBG 则更依赖中野联动打开局面。</p>
+              <div class="card-meta"><span>今天 15:00</span><span>热度 84.3万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/valorant-edg-fnc08/400/300" width="400" height="300" loading="lazy" alt="EDG 对阵 Fnatic 无畏契约封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">无畏契约</span><span class="tag">VCT 中国</span></div>
+              <h3 class="card-title">EDG vs Fnatic · VCT 邀请赛</h3>
+              <p class="card-desc">EDG 的快速转点与 Fnatic 的稳健架枪形成对抗，ZmjjKK 的冥驹使用率和 Boaster 的指挥调度是胜负手。</p>
+              <div class="card-meta"><span>昨天 18:20</span><span>热度 71.8万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/cs2-vitality-g2-08/400/300" width="400" height="300" loading="lazy" alt="Vitality 对阵 G2 BLAST 小组赛封面">
+            <div class="card-body">
+              <div class="tag-row"><span class="tag tag-accent">CS2</span><span class="tag">BLAST</span></div>
+              <h3 class="card-title">Vitality vs G2 · BLAST 小组赛</h3>
+              <p class="card-desc">ZywOo 与 m0NESY 的狙击对位是全场焦点，两队在小镇地图上的道具管理差距将直接影响回合胜率。</p>
+              <div class="card-meta"><span>今天 16:00</span><span>热度 67.5万</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. 最新更新 / 动态 -->
+      <section id="latest" class="section">
+        <div class="section-header">
+          <h2 class="section-title">赛果与动态速递</h2>
+          <span class="section-sub">11 月 8 日更新</span>
+        </div>
+        <div class="compact-list">
+          <div class="compact-item"><span class="compact-time">今天 14:30</span><span class="compact-title">JDG 2:1 TES</span><span class="compact-desc">Knight 决胜局阿卡丽 8/1/6，JDG 锁定 A 组第一</span></div>
+          <div class="compact-item"><span class="compact-time">今天 12:10</span><span class="compact-title">T1 vs GEN 赛前调试</span><span class="compact-desc">双方就位，Faker 中路选用率最高的英雄为阿兹尔</span></div>
+          <div class="compact-item"><span class="compact-time">今天 10:45</span><span class="compact-title">VCT 太平洋：PRX 2:0 DRX</span><span class="compact-desc">Jinggg 雷兹三杀锁定胜局，PRX 晋级季后赛</span></div>
+          <div class="compact-item"><span class="compact-time">昨天 23:20</span><span class="compact-title">BLAST 秋季决赛：NAVI 2:1 FaZe</span><span class="compact-desc">s1mple 图三 1v3 残局锁定胜局，NAVI 进入四强</span></div>
+          <div class="compact-item"><span class="compact-time">昨天 21:05</span><span class="compact-title">ESL One：GG 1:1 LGD</span><span class="compact-desc">Ame 美杜莎后期翻盘，双方进入决胜局</span></div>
+          <div class="compact-item"><span class="compact-time">11 月 6 日</span><span class="compact-title">LPL 冬季赛积分更新</span><span class="compact-desc">BLG 反超 WBG 升至 C 组第二，JDG 保持全胜</span></div>
+          <div class="compact-item"><span class="compact-time">11 月 5 日</span><span class="compact-title">CS2 BLAST 小组赛抽签</span><span class="compact-desc">FaZe 与 NAVI 同分 A 组，Vitality 进入 B 组</span></div>
+          <div class="compact-item"><span class="compact-time">11 月 3 日</span><span class="compact-title">VCT 中国区队伍名单确认</span><span class="compact-desc">EDG、TE、FPX 等 8 支队伍参与冬季邀请赛</span></div>
+        </div>
+      </section>
+
+      <!-- 4. 分类入口 -->
+      <section id="categories" class="section">
+        <div class="section-header">
+          <h2 class="section-title">按赛事分类浏览</h2>
+        </div>
+        <div class="category-grid">
+          <a href="/#featured" class="category-item">英雄联盟</a>
+          <a href="/#featured" class="category-item">无畏契约</a>
+          <a href="/#featured" class="category-item">CS2</a>
+          <a href="/#featured" class="category-item">DOTA2</a>
+          <a href="/#featured" class="category-item">LPL 赛区</a>
+          <a href="/#featured" class="category-item">LCK 赛区</a>
+          <a href="/#featured" class="category-item">VCT 太平洋</a>
+          <a href="/#featured" class="category-item">BLAST 系列赛</a>
+        </div>
+      </section>
+
+      <!-- 5. 深度解析正文 -->
+      <section id="analysis" class="section">
+        <div class="section-header">
+          <h2 class="section-title">赛事深度复盘与判断维度</h2>
+        </div>
+        <div class="article-body">
+          <h3>不同赛事项目的核心差异</h3>
+          <p>
+            英雄联盟与无畏契约虽同属战术竞技类电竞，但观赛重点截然不同。英雄联盟的对局节奏围绕资源置换展开——小龙、峡谷先锋和纳什男爵的刷新时间决定了战队的决策窗口。以 2026 年 11 月 8 日 JDG 对阵 TES 的第三局为例，JDG 在小龙刷新前 40 秒完成下路越塔，提前落位获得龙坑视野，直接影响了后续两条小龙的归属。而无畏契约的胜负更多取决于回合内的技能交换与地图控制，PRX 在对阵 DRX 时通过雷兹的炸弹跳快速占领 A 点，压缩了对手的防守轮转时间。
+          </p>
+          <h3>战队积分与排名怎么解读</h3>
+          <p>
+            积分榜并非简单的胜负累加。LPL 冬季赛采用大场胜分与小场净胜分双重排名规则，当两队大场胜分相同时，比较小场胜率。LCK 则引入“对局时长加权系数”，快速结束的比赛获得更高排名权重。CS2 的 BLAST 小组赛使用瑞士轮制，每轮对手强度逐轮递增，因此 2-0 出线的队伍含金量与 2-1 出线不同。观众在查看积分榜时，需要结合赛制规则理解排名背后的实际战力差距。
+          </p>
+          <h3>选手数据的关键指标</h3>
+          <p>
+            不同位置的数据维度差异明显。中路选手的核心指标是参团率、分均伤害和线权控制率；下路选手则关注 15 分钟补刀差、分均经济和对线击杀参与。CS2 选手的 Rating 3.0 综合了每回合击杀、存活和道具贡献，但狙击手和步枪手的 Rating 不具备直接可比性。NAVI 的 s1mple 在 11 月 7 日对阵 FaZe 的比赛中 Rating 1.38，但其中 0.6 来自 AWP 击杀，这个数据需要结合他的站位和团队资源分配来理解。
+          </p>
+          <h3>判断一场对局是否值得回看</h3>
+          <ul>
+            <li><strong>看赛前排名差距：</strong>积分相近的队伍交手往往更焦灼，例如 T1 vs GEN 的 LCK 冬季赛 B 组对决，两队赛前胜率仅差 4 个百分点。</li>
+            <li><strong>看地图/英雄池重叠：</strong>CS2 中两队都擅长 Nuke 时，BP 阶段的博弈会大幅提升观赛价值；英雄联盟中单选手的英雄池交集越小，对线越有悬念。</li>
+            <li><strong>看近期状态曲线：</strong>连续三场 2:1 获胜的队伍，往往在关键局处理上更有韧性，比 2:0 横扫的队伍更值得关注。</li>
+            <li><strong>看历史交手记录：</strong>JDG 与 TES 近五次交手 3:2 领先，其中三场打满五局，这类对阵的剧情张力通常更高。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 6. 体验指南 / 消费路径 -->
+      <section id="guide" class="section">
+        <div class="section-header">
+          <h2 class="section-title">观赛顺序与内容选择建议</h2>
+        </div>
+        <div class="guide-steps">
+          <div class="guide-step"><span class="step-num">1</span><span class="step-text"><strong>先看当日焦点对阵表：</strong>每日大赛官网的焦点对局按热度排序，优先选择积分相近、历史交手焦灼的 BO3。例如 11 月 8 日的 T1 vs GEN 和 JDG vs TES 都值得优先观看。</span></div>
+          <div class="guide-step"><span class="step-num">2</span><span class="step-text"><strong>判断项目类型偏好：</strong>喜欢长线运营和资源置换的观众，优先选择英雄联盟 LPL/LCK 对局；偏好快节奏回合对抗的，选择无畏契约或 CS2 赛事。</span></div>
+          <div class="guide-step"><span class="step-num">3</span><span class="step-text"><strong>用数据面板筛选：</strong>查看选手的近期 KDA 和地图胜率，若某位关键选手状态明显下滑（例如连续三场 Rating 低于 0.9），该场比赛的悬念可能降低。</span></div>
+          <div class="guide-step"><span class="step-num">4</span><span class="step-text"><strong>比较同类对局：</strong>同为 BO3，LCK 的运营节奏通常比 LPL 慢 8—10 分钟，如果时间有限，优先选择击杀数更高、团战频率更密集的 LPL 赛区对局。</span></div>
+          <div class="guide-step"><span class="step-num">5</span><span class="step-text"><strong>赛后回看策略：</strong>先看决胜局，再根据数据面板回看关键团战时间戳。CS2 对局可重点观看长枪局和残局处理。</span></div>
+        </div>
+      </section>
+
+      <!-- 7. FAQ -->
+      <section id="faq" class="section">
+        <div class="section-header">
+          <h2 class="section-title">赛事常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>LPL 冬季赛一般多久更新一次赛程？</summary>
+            <p>LPL 冬季赛的赛程通常在北京时间每周一和周四的下午更新，公布未来三天的对局安排。遇到节假日或特殊赛程时会提前一天放出。11 月 8 日当天的赛程已于 11 月 6 日公布。</p>
+          </details>
+          <details>
+            <summary>英雄联盟和 DOTA2 的 BO3 赛制有什么区别？</summary>
+            <p>英雄联盟 BO3 采用全局 BP（无畏征召），同一系列赛中已使用的英雄不可重复选用；DOTA2 的 BO3 没有全局 BP 限制，队伍可以在不同局中重复选择相同英雄。这直接影响双方的战术储备深度和 BP 策略。</p>
+          </details>
+          <details>
+            <summary>第一次看 CS2 比赛，从哪场开始比较好？</summary>
+            <p>建议从 BLAST 或 IEM 的小组赛开始，这类比赛节奏紧凑、解说信息密度高。11 月 8 日的 FaZe vs NAVI 是经典对决，两队风格差异明显，适合作为入门场次。</p>
+          </details>
+          <details>
+            <summary>无畏契约的 VCT 积分和排名是怎么算的？</summary>
+            <p>VCT 积分由赛区挑战赛和全球赛事共同累积，挑战赛冠军获得 100 分，亚军 70 分，四强 45 分。太平洋赛区与美洲、EMEA 赛区的积分池独立计算，年终积分决定全球冠军赛的参赛名额。</p>
+          </details>
+          <details>
+            <summary>怎么判断一场 BO5 是否值得看回放？</summary>
+            <p>主要看前两局的比分和时长：如果前两局都是焦灼的 25 分钟以上对局，说明双方实力接近；如果出现 2:0 且单局时长低于 22 分钟，可以只看第三局确认是否横扫。另外查看决胜局的英雄/地图选择是否出现非常规阵容。</p>
+          </details>
+          <details>
+            <summary>LCK 和 LPL 的比赛风格有什么具体不同？</summary>
+            <p>LCK 队伍场均时长比 LPL 长约 6 分钟，小龙控制率更集中在前 15 分钟。LPL 则更频繁发起 4 包 2 下路越塔，场均击杀数高出约 25%。观看时 LCK 适合欣赏视野博弈和资源置换，LPL 适合看团战操作和前期对抗。</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 8. 用户评论 -->
+      <section id="comments" class="section">
+        <div class="section-header">
+          <h2 class="section-title">观众评论</h2>
+        </div>
+        <div class="comment-grid">
+          <div class="comment-item"><div class="comment-user">峡谷先锋</div><div class="comment-text">JDG 打 TES 第三局的阿卡丽太关键了，Knight 中路那波单杀直接改变局势。</div></div>
+          <div class="comment-item"><div class="comment-user">不玩辅助</div><div class="comment-text">T1 和 GEN 又是一场硬仗，Faker 的阿兹尔最近状态确实回来了。</div></div>
+          <div class="comment-item"><div class="comment-user">狙击手日记</div><div class="comment-text">s1mple 那个 1v3 残局看回放还是头皮发麻，NAVI 这场赢得不容易。</div></div>
+          <div class="comment-item"><div class="comment-user">雨夜带枪</div><div class="comment-text">PRX 的雷兹体系已经成招牌了，DRX 完全没找到应对办法。</div></div>
+          <div class="comment-item"><div class="comment-user">远古龙buff</div><div class="comment-text">BLG 最近运营确实稳，但打 WBG 估计还是看 Bin 的上路状态。</div></div>
+          <div class="comment-item"><div class="comment-user">VCT观赛人</div><div class="comment-text">EDG 打 Fnatic 那场转点速度太快了，ZmjjKK 的冥驹几乎没空过枪。</div></div>
+          <div class="comment-item"><div class="comment-user">暗影刺客</div><div class="comment-text">LCK 的比赛节奏还是慢，但视野博弈确实好看，每波龙团都拉扯很久。</div></div>
+          <div class="comment-item"><div class="comment-user">中路选手</div><div class="comment-text">Chovy 的补刀是真离谱，15 分钟压了快 20 刀，对线基本功没得说。</div></div>
+          <div class="comment-item"><div class="comment-user">DOTA老玩家</div><div class="comment-text">GG 打 LGD 第二局 Ame 的美杜莎翻盘太经典了，后期团战处理得真好。</div></div>
+          <div class="comment-item"><div class="comment-user">CS2新粉</div><div class="comment-text">BLAST 的赛制看不太懂，瑞士轮到底是怎么决定出线的？</div></div>
+          <div class="comment-item"><div class="comment-user">只玩上单</div><div class="comment-text">Bin 的剑姬最近几场都放不出来，对手基本都 ban 了。</div></div>
+          <div class="comment-item"><div class="comment-user">数据控</div><div class="comment-text">Gumayusi 的 15 分钟补刀差 +18.2 有点夸张，下路对线压制力确实强。</div></div>
+          <div class="comment-item"><div class="comment-user">无畏契约观察</div><div class="comment-text">Boaster 的指挥调度还是顶级，Fnatic 的默认控图很少出漏洞。</div></div>
+          <div class="comment-item"><div class="comment-user">看比赛不熬夜</div><div class="comment-text">今天 12 场太多了根本看不完，只能挑两场焦点战。</div></div>
+          <div class="comment-item"><div class="comment-user">电竞小透明</div><div class="comment-text">感觉最近比赛密度有点高，选手状态起伏也变大了。</div></div>
+          <div class="comment-item"><div class="comment-user">RNG老粉</div><div class="comment-text">虽然 RNG 这赛季没进冬季赛，但看 JDG 和 TES 打也挺过瘾的。</div></div>
+          <div class="comment-item"><div class="comment-user">Navi支持者</div><div class="comment-text">NAVI 图三那个残局处理太冷静了，s1mple 真大心脏。</div></div>
+          <div class="comment-item"><div class="comment-user">BP爱好者</div><div class="comment-text">全局 BP 之后比赛好看多了，第二局经常能看到冷门英雄上场。</div></div>
+        </div>
+      </section>
+
+      <!-- 9. 相关资讯 -->
+      <section id="news" class="section">
+        <div class="section-header">
+          <h2 class="section-title">赛事资讯</h2>
+        </div>
+        <div class="news-grid">
+          <article class="news-item">
+            <div class="news-date">2026-11-08</div>
+            <h3 class="news-title">LPL 冬季赛 A 组头名争夺战今日打响</h3>
+            <p class="news-summary">JDG 与 TES 在 11 月 8 日 17:00 展开 A 组头名争夺，胜者将直接锁定季后赛名额。JDG 目前大场全胜。</p>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2026-11-07</div>
+            <h3 class="news-title">NAVI 2:1 淘汰 FaZe 晋级 BLAST 四强</h3>
+            <p class="news-summary">s1mple 在图三的 1v3 残局帮助 NAVI 完成翻盘，FaZe 止步小组赛。NAVI 将在 11 月 9 日对阵 Vitality。</p>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2026-11-06</div>
+            <h3 class="news-title">VCT 太平洋赛区 PRX 锁定季后赛席位</h3>
+            <p class="news-summary">PRX 以 2:0 击败 DRX 后积分达到 12 分，成为太平洋赛区首支锁定季后赛的队伍。Jinggg 获评全场最佳。</p>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2026-11-05</div>
+            <h3 class="news-title">LPL 冬季赛 C 组排名更新：BLG 反超 WBG</h3>
+            <p class="news-summary">BLG 在 11 月 4 日的比赛中 2:0 战胜 WBG，小场净胜分反超，升至 C 组第二。WBG 降至第三。</p>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2026-11-04</div>
+            <h3 class="news-title">ESL One 冬季赛小组赛分组公布</h3>
+            <p class="news-summary">GG、LGD、Liquid 等 12 支队伍参赛，分组抽签结果于 11 月 4 日公布，GG 与 LGD 同处 B 组。</p>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2026-11-03</div>
+            <h3 class="news-title">CS2 BLAST 秋季决赛观赛人数创新高</h3>
+            <p class="news-summary">FaZe 对阵 NAVI 的小组赛峰值观众达到 89 万，创下 BLAST 秋季赛小组赛阶段的新纪录。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 10. 相关推荐 -->
+      <section id="related" class="section">
+        <div class="section-header">
+          <h2 class="section-title">延伸内容方向</h2>
+        </div>
+        <div class="rec-tags">
+          <a href="/#analysis" class="rec-tag">LPL 全局 BP 解析</a>
+          <a href="/#analysis" class="rec-tag">CS2 狙击手数据对比</a>
+          <a href="/#guide" class="rec-tag">BO3 观赛顺序建议</a>
+          <a href="/#players" class="rec-tag">Knight 分均伤害趋势</a>
+          <a href="/#standings" class="rec-tag">LCK 冬季赛积分规则</a>
+          <a href="/#results" class="rec-tag">BLAST 瑞士轮出线形势</a>
+          <a href="/#featured" class="rec-tag">VCT 太平洋季后赛对阵</a>
+          <a href="/#news" class="rec-tag">11 月 8 日全部赛果速递</a>
+        </div>
+      </section>
+
+      <!-- 11. 补充板块：热门榜单 -->
+      <section id="standings" class="section">
+        <div class="section-header">
+          <h2 class="section-title">本周赛事热度榜</h2>
+          <span class="section-sub">截至 11 月 8 日</span>
+        </div>
+        <div class="rank-list">
+          <div class="rank-item"><span class="rank-num">1</span><span class="rank-name">T1 vs GEN · LCK 冬季赛</span><span class="rank-score">112.5万</span></div>
+          <div class="rank-item"><span class="rank-num">2</span><span class="rank-name">JDG vs TES · LPL 冬季赛</span><span class="rank-score">98.2万</span></div>
+          <div class="rank-item"><span class="rank-num">3</span><span class="rank-name">FaZe vs NAVI · BLAST 秋季决赛</span><span class="rank-score">89.1万</span></div>
+          <div class="rank-item"><span class="rank-num">4</span><span class="rank-name">BLG vs WBG · LPL 冬季赛</span><span class="rank-score">84.3万</span></div>
+          <div class="rank-item"><span class="rank-num">5</span><span class="rank-name">PRX vs DRX · VCT 太平洋</span><span class="rank-score">76.4万</span></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 右侧辅助栏 -->
+    <aside class="aux-sidebar">
+      <div class="aux-card">
+        <h3>今日赛程速览</h3>
+        <div class="compact-list" style="border:none;">
+          <div class="compact-item" style="padding:0.5rem 0;"><span class="compact-time">15:00</span><span class="compact-title">BLG vs WBG</span></div>
+          <div class="compact-item" style="padding:0.5rem 0;"><span class="compact-time">17:00</span><span class="compact-title">JDG vs TES</span></div>
+          <div class="compact-item" style="padding:0.5rem 0;"><span class="compact-time">19:00</span><span class="compact-title">T1 vs GEN</span></div>
+          <div class="compact-item" style="padding:0.5rem 0;"><span class="compact-time">20:30</span><span class="compact-title">PRX vs DRX</span></div>
+          <div class="compact-item" style="padding:0.5rem 0;"><span class="compact-time">22:00</span><span class="compact-title">FaZe vs NAVI</span></div>
+        </div>
+      </div>
+      <div class="aux-card">
+        <h3>积分榜快照</h3>
+        <div style="font-size:0.85rem;color:var(--text-secondary);display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="display:flex;justify-content:space-between;"><span>LPL A 组</span><strong>JDG 5-0</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span>LPL C 组</span><strong>BLG 4-1</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span>LCK B 组</span><strong>GEN 6-1</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span>VCT 太平洋</span><strong>PRX 4-1</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span>BLAST A 组</span><strong>NAVI 3-1</strong></div>
+        </div>
+      </div>
+      <div class="aux-card">
+        <h3>推荐关注</h3>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;">
+          <a href="/#players" style="color:var(--text-secondary);">Knight 中单数据趋势</a>
+          <a href="/#players" style="color:var(--text-secondary);">s1mple 狙击数据面板</a>
+          <a href="/#analysis" style="color:var(--text-secondary);">全局 BP 规则详解</a>
+          <a href="/#guide" style="color:var(--text-secondary);">新手观赛顺序</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 页尾 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-text" style="color:#fff;font-weight:700;font-size:1.2rem;">每日大赛官网</span>
+        <p>聚合主流电竞赛事的每日赛程、对战结果、积分排名与选手数据，追踪具体比赛条目和更新动态。</p>
+      </div>
+      <div class="footer-col">
+        <h4>赛事频道</h4>
+        <ul>
+          <li><a href="/#schedule">今日赛程</a></li>
+          <li><a href="/#results">赛果速递</a></li>
+          <li><a href="/#standings">积分榜</a></li>
+          <li><a href="/#players">选手数据</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>内容分区</h4>
+        <ul>
+          <li><a href="/#featured">精选对局</a></li>
+          <li><a href="/#analysis">深度复盘</a></li>
+          <li><a href="/#guide">观赛指南</a></li>
+          <li><a href="/#faq">常见问题</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="/#comments">观众评论</a></li>
+          <li><a href="/#news">赛事资讯</a></li>
+          <li><a href="/#related">延伸方向</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>部分内容为示例数据，仅用于展示页面结构。© 2026 每日大赛官网</p>
+    </div>
+  </footer>
+</body>
+                                                              </html>
