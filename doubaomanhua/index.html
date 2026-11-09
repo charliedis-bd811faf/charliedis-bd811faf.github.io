@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>豆包漫画 - 热门国漫与条漫聚合</title>
+<meta name="description" content="豆包漫画聚合热门国漫与条漫，提供《雾山五行》《镖人》《一人之下》等条目推荐、分类筛选、更新动态与深度解析，适合漫画爱好者找新作与追更。">
+<meta name="keywords" content="国漫推荐,条漫平台,漫画分类,更新速报,雾山五行">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f2a4a'/%3E%3Ccircle cx='22' cy='24' r='10' fill='%23f6b93b'/%3E%3Ccircle cx='44' cy='40' r='12' fill='%23e55039'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#1c2333;
+  --ink-soft:#3f4a63;
+  --muted:#6c7899;
+  --line:#e3e7f0;
+  --paper:#ffffff;
+  --bg:#f3f5fa;
+  --panel:#f8f9fc;
+  --brand:#26356b;
+  --brand-2:#3b5bdb;
+  --accent:#e55039;
+  --accent-soft:#fde8e4;
+  --gold:#f6b93b;
+  --green:#2f9e6b;
+  --radius:14px;
+  --radius-s:9px;
+  --shadow:0 2px 10px rgba(28,35,51,.06);
+  --shadow-hover:0 6px 22px rgba(28,35,51,.12);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  --w:1320px;
+  --announce-h:38px;
+  --header-h:64px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;font-family:var(--font);color:var(--ink);background:var(--bg);
+  line-height:1.75;font-size:15px;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;line-height:1.35;font-weight:700;color:var(--ink);}
+p{margin:0 0 .9em;}
+a{color:var(--brand-2);text-decoration:none;}
+a:hover{text-decoration:underline;}
+ul,ol{margin:0 0 .9em;padding-left:1.2em;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;}
+
+/* ---------- 吸顶 ---------- */
+.announce{
+  position:sticky;top:0;z-index:60;background:linear-gradient(90deg,#26356b,#3b5bdb);
+  color:#eef1ff;font-size:13px;height:var(--announce-h);display:flex;align-items:center;
+}
+.announce .wrap{display:flex;align-items:center;gap:14px;overflow:hidden;white-space:nowrap;}
+.announce .tag{background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px;font-weight:600;flex:none;}
+.announce a{color:#ffe9a8;font-weight:600;}
+.announce a:hover{color:#fff;}
+
+.site-header{
+  position:sticky;top:var(--announce-h);z-index:55;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);height:var(--header-h);
+}
+.header-inner{
+  max-width:var(--w);margin:0 auto;height:100%;display:flex;align-items:center;gap:20px;padding:0 20px;
+}
+.logo{display:flex;align-items:center;gap:9px;flex:none;text-decoration:none;}
+.logo:hover{text-decoration:none;}
+.logo svg{width:32px;height:32px;flex:none;}
+.logo-text{font-size:19px;font-weight:800;color:var(--brand);letter-spacing:.5px;white-space:nowrap;}
+.main-nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none;}
+.main-nav::-webkit-scrollbar{display:none;}
+.main-nav a{
+  padding:7px 12px;border-radius:8px;color:var(--ink-soft);font-size:14px;font-weight:500;white-space:nowrap;
+}
+.main-nav a:hover{background:var(--panel);color:var(--brand-2);text-decoration:none;}
+.header-search{display:flex;align-items:center;gap:6px;flex:none;}
+.header-search input{
+  width:150px;padding:7px 11px;border:1px solid var(--line);border-radius:20px;font-size:13px;background:var(--panel);
+  outline:none;transition:.2s;
+}
+.header-search input:focus{border-color:var(--brand-2);background:#fff;width:180px;}
+.header-search button{
+  border:none;background:var(--brand-2);color:#fff;padding:7px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600;
+}
+.menu-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;}
+
+/* ---------- 容器 ---------- */
+.wrap{max-width:var(--w);margin:0 auto;padding:0 20px;}
+[id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + 14px);}
+
+/* ---------- 首屏 ---------- */
+.hero{
+  background:linear-gradient(135deg,#1f2a4a 0%,#26356b 45%,#3b5bdb 100%);
+  color:#eef1ff;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-80px;top:-60px;width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(246,185,59,.35),transparent 65%);pointer-events:none;
+}
+.hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center;padding:46px 0 50px;position:relative;z-index:1;}
+.hero h1{font-size:clamp(30px,4vw,46px);letter-spacing:1px;margin-bottom:14px;color:#fff;}
+.hero h1 .hl{color:var(--gold);}
+.hero-desc{font-size:15.5px;color:#cfd8f7;max-width:560px;margin-bottom:22px;line-height:1.85;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:24px;font-size:14px;
+  font-weight:600;text-decoration:none;transition:.2s;border:1.5px solid transparent;
+}
+.btn-primary{background:var(--gold);color:#1f2a4a;}
+.btn-primary:hover{background:#ffd166;text-decoration:none;transform:translateY(-1px);}
+.btn-ghost{border-color:rgba(255,255,255,.4);color:#eef1ff;}
+.btn-ghost:hover{background:rgba(255,255,255,.12);text-decoration:none;}
+.hero-stats{display:flex;gap:28px;margin-top:26px;flex-wrap:wrap;}
+.hero-stats div{line-height:1.3;}
+.hero-stats strong{display:block;font-size:24px;color:var(--gold);font-family:Georgia,serif;}
+.hero-stats span{font-size:12.5px;color:#aeb9dd;}
+
+.hero-art{position:relative;min-height:270px;}
+.hero-art svg{width:100%;height:auto;filter:drop-shadow(0 12px 30px rgba(0,0,0,.35));}
+
+/* ---------- 三栏布局 ---------- */
+.layout{
+  display:grid;grid-template-columns:176px minmax(0,1fr) 244px;gap:22px;align-items:start;padding:26px 0 40px;
+}
+.channels{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:14px 10px;
+  position:sticky;top:calc(var(--announce-h) + var(--header-h) + 14px);
+}
+.channels h2{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);padding:0 10px 8px;font-weight:600;}
+.channels a{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;color:var(--ink-soft);
+  font-size:13.5px;font-weight:500;transition:.15s;
+}
+.channels a:hover{background:var(--panel);color:var(--brand-2);text-decoration:none;}
+.channels a .dot{width:6px;height:6px;border-radius:50%;background:var(--brand-2);flex:none;opacity:.55;}
+.channels a.active{background:var(--accent-soft);color:var(--accent);font-weight:700;}
+.channels a.active .dot{background:var(--accent);opacity:1;}
+
+.main-col{min-width:0;display:flex;flex-direction:column;gap:24px;}
+
+.aside-col{display:flex;flex-direction:column;gap:20px;position:sticky;top:calc(var(--announce-h) + var(--header-h) + 14px);}
+
+/* ---------- 通用板块 ---------- */
+.section{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 24px;box-shadow:var(--shadow);
+}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+.section-head h2{font-size:19px;display:flex;align-items:center;gap:9px;}
+.section-head h2::before{content:"";width:4px;height:18px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--gold));}
+.section-head .sub{font-size:12.5px;color:var(--muted);}
+.more-link{font-size:12.5px;color:var(--muted);white-space:nowrap;}
+.more-link:hover{color:var(--brand-2);}
+
+/* 概览 */
+.overview p{color:var(--ink-soft);font-size:14.5px;}
+.overview .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;}
+.overview .kv div{background:var(--panel);border-radius:var(--radius-s);padding:10px 13px;}
+.overview .kv strong{display:block;font-size:13px;color:var(--brand);}
+.overview .kv span{font-size:12.5px;color:var(--muted);}
+
+/* 卡片网格 */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:16px;}
+.card{
+  border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden;background:var(--paper);
+  transition:.2s;display:flex;flex-direction:column;
+}
+.card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:#cfd7ea;}
+.card-cover{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--panel);}
+.card-cover img{width:100%;height:100%;object-fit:cover;transition:.35s;}
+.card:hover .card-cover img{transform:scale(1.05);}
+.card-badge{
+  position:absolute;left:8px;top:8px;background:rgba(31,42,74,.82);color:#fff;font-size:11px;
+  padding:2px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(3px);
+}
+.card-body{padding:11px 12px 13px;display:flex;flex-direction:column;gap:6px;flex:1;}
+.card-title{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.4;}
+.card-title:hover{color:var(--brand-2);}
+.card-points{font-size:12.5px;color:var(--muted);line-height:1.6;flex:1;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-size:11px;background:var(--panel);color:var(--ink-soft);padding:2px 8px;border-radius:20px;border:1px solid var(--line);}
+.tag.hot{background:var(--accent-soft);color:var(--accent);border-color:transparent;}
+.card-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:2px;}
+.card-meta .score{color:var(--gold);font-weight:700;}
+
+/* 更新列表 */
+.updates-list{display:flex;flex-direction:column;}
+.updates-list li{
+  display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);list-style:none;align-items:flex-start;
+}
+.updates-list li:last-child{border-bottom:none;}
+.updates-list .time{font-size:12px;color:var(--muted);flex:none;width:62px;font-variant-numeric:tabular-nums;padding-top:2px;}
+.updates-list .u-title{font-weight:600;font-size:14px;color:var(--ink);}
+.updates-list .u-desc{font-size:12.5px;color:var(--muted);}
+.updates-list .live{background:var(--accent);color:#fff;font-size:10px;padding:0 6px;border-radius:4px;margin-right:6px;vertical-align:1px;}
+
+/* 分类入口 */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+.cat-item{
+  display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius-s);
+  background:var(--panel);transition:.18s;text-decoration:none;
+}
+.cat-item:hover{border-color:var(--brand-2);background:#fff;text-decoration:none;box-shadow:var(--shadow);}
+.cat-item strong{font-size:14px;color:var(--ink);}
+.cat-item span{font-size:12px;color:var(--muted);}
+
+/* 深度解析 */
+.deep h2{margin-bottom:14px;}
+.deep h3{font-size:16px;margin:20px 0 9px;color:var(--brand);}
+.deep h3:first-of-type{margin-top:4px;}
+.deep p,.deep li{font-size:14.5px;color:var(--ink-soft);}
+.deep ul li{margin-bottom:6px;}
+.deep .callout{
+  background:linear-gradient(90deg,#fdf6e3,#fffdf7);border-left:3px solid var(--gold);
+  padding:12px 16px;border-radius:0 var(--radius-s) var(--radius-s) 0;margin:14px 0;font-size:13.5px;color:var(--ink-soft);
+}
+.compare{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0;}
+.compare th,.compare td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
+.compare th{background:var(--panel);color:var(--brand);font-weight:700;}
+.compare td{color:var(--ink-soft);}
+
+/* 指南步骤 */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;counter-reset:step;}
+.step{background:var(--panel);border-radius:var(--radius-s);padding:15px 16px 15px 15px;position:relative;border:1px solid var(--line);}
+.step::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);font-family:Georgia,serif;font-size:20px;
+  font-weight:700;color:var(--gold);display:block;margin-bottom:5px;
+}
+.step h3{font-size:14.5px;margin-bottom:5px;}
+.step p{font-size:13px;color:var(--muted);margin:0;}
+
+/* FAQ */
+.faq details{border-bottom:1px solid var(--line);padding:4px 0;}
+.faq details:last-child{border-bottom:none;}
+.faq summary{
+  cursor:pointer;font-weight:600;font-size:14.5px;padding:11px 26px 11px 0;position:relative;color:var(--ink);list-style:none;
+}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{
+  content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--muted);font-weight:400;
+}
+.faq details[open] summary::after{content:"−";color:var(--brand-2);}
+.faq details p{font-size:13.5px;color:var(--ink-soft);padding:0 0 12px;margin:0;}
+
+/* 评论 */
+.comments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.comment{background:var(--panel);border-radius:var(--radius-s);padding:12px 14px;border:1px solid var(--line);}
+.comment-head{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.avatar{
+  width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--brand-2),var(--gold));
+  color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;
+}
+.comment-head .name{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.comment-head .date{font-size:11px;color:var(--muted);margin-left:auto;}
+.comment p{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.65;}
+
+/* 资讯 */
+.news-list{display:flex;flex-direction:column;gap:0;}
+.news-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed var(--line);}
+.news-item:last-child{border-bottom:none;}
+.news-item img{width:104px;height:72px;border-radius:var(--radius-s);object-fit:cover;flex:none;}
+.news-item .n-title{font-size:14px;font-weight:700;color:var(--ink);}
+.news-item .n-title:hover{color:var(--brand-2);}
+.news-item .n-date{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+.news-item .n-sum{font-size:12.5px;color:var(--muted);line-height:1.6;}
+
+/* 侧栏 */
+.aside-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 18px;box-shadow:var(--shadow);}
+.aside-box h2{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.aside-box h2::before{content:"";width:3px;height:14px;border-radius:2px;background:var(--accent);}
+.rank-list{list-style:none;padding:0;margin:0;counter-reset:rank;}
+.rank-list li{
+  counter-increment:rank;display:flex;gap:9px;padding:8px 0;border-bottom:1px dashed var(--line);align-items:center;
+}
+.rank-list li:last-child{border-bottom:none;}
+.rank-list li::before{
+  content:counter(rank);font-family:Georgia,serif;font-size:14px;font-weight:700;color:var(--muted);width:18px;flex:none;text-align:center;
+}
+.rank-list li:nth-child(1)::before{color:var(--accent);}
+.rank-list li:nth-child(2)::before{color:var(--gold);}
+.rank-list li:nth-child(3)::before{color:#b8860b;}
+.rank-list .r-title{font-size:13.5px;font-weight:600;color:var(--ink);flex:1;min-width:0;}
+.rank-list .r-title:hover{color:var(--brand-2);}
+.rank-list .r-val{font-size:11.5px;color:var(--muted);flex:none;}
+
+.timeline{list-style:none;padding:0;margin:0;position:relative;}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:var(--line);}
+.timeline li{padding:0 0 14px 20px;position:relative;font-size:13px;color:var(--ink-soft);}
+.timeline li:last-child{padding-bottom:0;}
+.timeline li::before{
+  content:"";position:absolute;left:0;top:5px;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid var(--brand-2);
+}
+.timeline li .t-date{font-size:11px;color:var(--muted);display:block;}
+
+/* 相关推荐 */
+.reco-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.reco-tags a{
+  font-size:13px;padding:6px 13px;border-radius:20px;background:var(--panel);border:1px solid var(--line);
+  color:var(--ink-soft);transition:.18s;
+}
+.reco-tags a:hover{border-color:var(--brand-2);color:var(--brand-2);background:#fff;text-decoration:none;}
+
+/* 页尾 */
+.site-footer{background:#1a2238;color:#c3cbe3;margin-top:20px;padding:40px 0 22px;font-size:13px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px;margin-bottom:26px;}
+.footer-brand .logo-text{color:#fff;}
+.footer-brand p{font-size:12.5px;color:#8f9ac0;margin-top:10px;max-width:280px;line-height:1.7;}
+.footer-col h3{font-size:13px;color:#fff;margin-bottom:10px;letter-spacing:.5px;}
+.footer-col a{display:block;color:#9aa5c9;font-size:12.5px;padding:3px 0;}
+.footer-col a:hover{color:var(--gold);text-decoration:none;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11.5px;color:#7d88ad;}
+
+/* 无结果 */
+.no-result{display:none;padding:20px;text-align:center;color:var(--muted);font-size:13.5px;background:var(--panel);border-radius:var(--radius-s);}
+.no-result.show{display:block;}
+
+/* 响应式 */
+@media(max-width:1080px){
+  .layout{grid-template-columns:158px minmax(0,1fr);}
+  .aside-col{display:none;}
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-art{display:none;}
+}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr;}
+  .channels{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:10px;}
+  .channels h2{width:100%;padding-bottom:4px;}
+  .channels a{flex:none;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .header-search{display:none;}
+  .menu-toggle{display:block;}
+  .main-nav{display:none;}
+  .main-nav.open{display:flex;position:absolute;top:var(--header-h);left:0;right:0;background:#fff;flex-direction:column;padding:10px 20px;border-bottom:1px solid var(--line);box-shadow:var(--shadow);}
+}
+@media(max-width:560px){
+  .card-grid{grid-template-columns:repeat(2,1fr);gap:11px;}
+  .card-points{display:none;}
+  .section{padding:16px 14px;}
+  .news-item img{width:82px;height:58px;}
+  .hero-inner{padding:30px 0 34px;}
+  .comments-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- 吸顶公告条 -->
+<div class="announce">
+  <div class="wrap">
+    <span class="tag">更新</span>
+    <span>本周新增 12 部条漫连载、《镖人》第 28 话已上线、<a href="/#updates">查看全部更新 →</a></span>
+  </div>
+</div>
+
+<!-- 吸顶页头 -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="/#top" aria-label="豆包漫画首页">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#26356b"/>
+        <circle cx="23" cy="25" r="10" fill="#f6b93b"/>
+        <circle cx="43" cy="40" r="12" fill="#e55039"/>
+        <circle cx="43" cy="40" r="4" fill="#fff" opacity=".85"/>
+      </svg>
+      <span class="logo-text">豆包漫画</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="主题导航">
+      <a href="/#overview">领域概览</a>
+      <a href="/#picks">精选推荐</a>
+      <a href="/#updates">更新动态</a>
+      <a href="/#categories">分类入口</a>
+      <a href="/#deep">深度解析</a>
+      <a href="/#guide">体验指南</a>
+      <a href="/#faq">常见问答</a>
+      <a href="/#comments">读者评论</a>
+    </nav>
+    <div class="header-search">
+      <input type="search" id="searchInput" placeholder="搜条目 / 类型…" aria-label="搜索漫画条目或类型">
+      <button type="button" id="searchBtn">搜索</button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="展开导航菜单" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- 首屏 -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <h1><span class="hl">豆包漫画</span>：国漫与条漫的追更索引</h1>
+        <p class="hero-desc">汇集国漫、条漫、日漫汉化与独立短篇的连载清单，覆盖《雾山五行》《镖人》《一人之下》等具体作品，提供更新速报、类型对照、评分参考与读者讨论，帮你在大量连载里快速定位下一部要追的漫画。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/#picks">浏览精选条目</a>
+          <a class="btn btn-ghost" href="/#updates">今日更新速报</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>328</strong><span>在追连载条目</span></div>
+          <div><strong>46</strong><span>本周新上线</span></div>
+          <div><strong>9.1</strong><span>最高读者评分</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 420 300" role="presentation">
+          <defs>
+            <linearGradient id="cg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f6b93b"/><stop offset="1" stop-color="#e55039"/>
+            </linearGradient>
+            <linearGradient id="cg2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#3b5bdb"/><stop offset="1" stop-color="#7c5cff"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="40" width="150" height="210" rx="10" fill="#ffffff" opacity=".14" transform="rotate(-7 95 145)"/>
+          <rect x="70" y="26" width="160" height="220" rx="12" fill="#ffffff" opacity=".2" transform="rotate(-2 150 136)"/>
+          <rect x="140" y="46" width="190" height="210" rx="12" fill="url(#cg2)" opacity=".85"/>
+          <circle cx="235" cy="122" r="40" fill="url(#cg1)"/>
+          <path d="M185 190 q50 -34 100 0" stroke="#ffffff" stroke-width="6" fill="none" opacity=".6" stroke-linecap="round"/>
+          <rect x="170" y="204" width="52" height="7" rx="3.5" fill="#fff" opacity=".55"/>
+          <rect x="170" y="220" width="96" height="7" rx="3.5" fill="#fff" opacity=".35"/>
+          <circle cx="330" cy="72" r="16" fill="#f6b93b" opacity=".9"/>
+          <path d="M304 250 l26 -38 l26 38 z" fill="#fff" opacity=".3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 主内容区：三栏门户 -->
+<div class="wrap">
+  <div class="layout">
+
+    <!-- 左频道索引 -->
+    <aside class="channels" aria-label="频道索引">
+      <h2>频道</h2>
+      <a href="/#overview" class="active"><span class="dot"></span>领域概览</a>
+      <a href="/#picks"><span class="dot"></span>精选推荐</a>
+      <a href="/#updates"><span class="dot"></span>更新动态</a>
+      <a href="/#categories"><span class="dot"></span>分类入口</a>
+      <a href="/#deep"><span class="dot"></span>深度解析</a>
+      <a href="/#guide"><span class="dot"></span>体验指南</a>
+      <a href="/#faq"><span class="dot"></span>常见问答</a>
+      <a href="/#comments"><span class="dot"></span>读者评论</a>
+      <a href="/#news"><span class="dot"></span>相关资讯</a>
+      <a href="/#reco"><span class="dot"></span>相关推荐</a>
+      <a href="/#rank"><span class="dot"></span>热门榜单</a>
+    </aside>
+
+    <!-- 主内容栏 -->
+    <main class="main-col">
+
+      <!-- 1 领域概览 -->
+      <section class="section overview" id="overview">
+        <div class="section-head">
+          <h2>豆包漫画领域概览</h2>
+          <span class="sub">类型 · 连载 · 阅读场景</span>
+        </div>
+        <p>豆包漫画所聚合的内容，主要围绕中文漫画的几个大类展开：以《雾山五行》《刺客伍六七》为代表的国漫动作奇幻条漫，以《镖人》《一人之下》为代表的武侠与都市异能长篇，以《蝉女》《快把我哥带走》为代表的日常情感与搞笑短篇，以及独立作者在条漫平台连载的悬疑、科幻、治愈向作品。每一类在更新节奏、单话长度和付费模式上都有明显区别。</p>
+        <p>当前值得关注的方向有三条。其一是国漫动作条漫的画面密度提升，多部作品单话分镜超过 80 格，适合大屏阅读；其二是武侠题材的回潮，《镖人》恢复双周更后带动同类新作上线；其三是短篇合集型条漫在移动端增长明显，单话 3—5 分钟可读完，适合通勤场景。</p>
+        <p>对读者来说，选择一部漫画通常看三件事：更新是否稳定、画风与题材是否合口味、前 10 话能否建立追更动力。豆包漫画把这些判断依据拆到具体条目卡片里，方便逐项对照。</p>
+        <div class="kv">
+          <div><strong>动作奇幻</strong><span>高燃战斗、分镜密度大</span></div>
+          <div><strong>武侠长篇</strong><span>历史背景、双周更为主</span></div>
+          <div><strong>都市异能</strong><span>现代设定、周更稳定</span></div>
+          <div><strong>日常短篇</strong><span>单话完结、通勤友好</span></div>
+        </div>
+      </section>
+
+      <!-- 2 精选内容推荐 -->
+      <section class="section" id="picks">
+        <div class="section-head">
+          <h2>精选漫画条目推荐</h2>
+          <span class="sub">8 部近期可追条目</span>
+        </div>
+        <div class="card-grid" id="picksGrid">
+
+          <article class="card" data-name="雾山五行 动作 奇幻">
+            <div class="card-cover">
+              <span class="card-badge">动作奇幻</span>
+              <img src="https://picsum.photos/seed/wushan-wuxing11/400/300" width="400" height="300" loading="lazy" alt="雾山五行国漫动作奇幻封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">雾山五行</a>
+              <p class="card-points">水墨风战斗分镜与五行设定结合，单话打斗格数密集，适合喜欢高燃动作场面的读者，第 3 季已更新至第 9 话。</p>
+              <div class="tags"><span class="tag">水墨风</span><span class="tag">高燃战斗</span><span class="tag">季更</span></div>
+              <div class="card-meta"><span class="score">9.1 分</span><span>周更 · 第 9 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="镖人 武侠 历史">
+            <div class="card-cover">
+              <span class="card-badge">武侠历史</span>
+              <img src="https://picsum.photos/seed/biaoren28/400/300" width="400" height="300" loading="lazy" alt="镖人武侠历史漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">镖人</a>
+              <p class="card-points">隋唐交替背景的硬派武侠，刀马与小七的旅途线清晰，打斗写实。第 28 话已上线，双周更节奏稳定。</p>
+              <div class="tags"><span class="tag">硬派武侠</span><span class="tag">历史背景</span><span class="tag">双周更</span></div>
+              <div class="card-meta"><span class="score">8.9 分</span><span>双周更 · 第 28 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="一人之下 都市 异能">
+            <div class="card-cover">
+              <span class="card-badge">都市异能</span>
+              <img src="https://picsum.photos/seed/yirenzhixia07/400/300" width="400" height="300" loading="lazy" alt="一人之下都市异能漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">一人之下</a>
+              <p class="card-points">异人世界观下的门派与身世谜题，张楚岚与冯宝宝的组合线贯穿，适合喜欢设定考据与群像的读者。</p>
+              <div class="tags"><span class="tag">异人世界</span><span class="tag">群像</span><span class="tag">周更</span></div>
+              <div class="card-meta"><span class="score">8.7 分</span><span>周更 · 第 632 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="刺客伍六七 搞笑 动作">
+            <div class="card-cover">
+              <span class="card-badge">搞笑动作</span>
+              <img src="https://picsum.photos/seed/cike-wu67/400/300" width="400" height="300" loading="lazy" alt="刺客伍六七搞笑动作漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">刺客伍六七</a>
+              <p class="card-points">单元式刺客委托结构，每话一个独立小故事，笑点密集且单话可读完，适合碎片时间阅读。</p>
+              <div class="tags"><span class="tag">单元剧</span><span class="tag">搞笑</span><span class="tag">轻松</span></div>
+              <div class="card-meta"><span class="score">8.5 分</span><span>周更 · 第 41 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="蝉女 情感 都市">
+            <div class="card-cover">
+              <span class="card-badge">情感都市</span>
+              <img src="https://picsum.photos/seed/chan-nv05/400/300" width="400" height="300" loading="lazy" alt="蝉女情感都市漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">蝉女</a>
+              <p class="card-points">以“恋爱鉴定师”视角展开的都市情感故事，台词密度高，适合喜欢对白推进和关系描写的读者。</p>
+              <div class="tags"><span class="tag">情感关系</span><span class="tag">对白驱动</span><span class="tag">连载中</span></div>
+              <div class="card-meta"><span class="score">8.4 分</span><span>周更 · 第 76 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="快把我哥带走 日常 校园">
+            <div class="card-cover">
+              <span class="card-badge">日常校园</span>
+              <img src="https://picsum.photos/seed/gege-daizou12/400/300" width="400" height="300" loading="lazy" alt="快把我哥带走日常校园漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">快把我哥带走</a>
+              <p class="card-points">兄妹日常段子式条漫，单话 6—10 格，节奏轻快，适合想找轻松短内容的读者。</p>
+              <div class="tags"><span class="tag">兄妹日常</span><span class="tag">段子</span><span class="tag">短篇</span></div>
+              <div class="card-meta"><span class="score">8.2 分</span><span>完结 · 全 218 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="深海异常信号 悬疑 科幻">
+            <div class="card-cover">
+              <span class="card-badge">悬疑科幻</span>
+              <img src="https://picsum.photos/seed/shenhai-xinhao03/400/300" width="400" height="300" loading="lazy" alt="深海异常信号悬疑科幻漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">深海异常信号</a>
+              <p class="card-points">深海科考队遭遇未知信号的悬疑线，画面偏冷色调，适合喜欢慢热解谜和氛围营造的读者。</p>
+              <div class="tags"><span class="tag">悬疑解谜</span><span class="tag">冷色调</span><span class="tag">慢热</span></div>
+              <div class="card-meta"><span class="score">8.3 分</span><span>周更 · 第 17 话</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-name="春风便利店 治愈 日常">
+            <div class="card-cover">
+              <span class="card-badge">治愈日常</span>
+              <img src="https://picsum.photos/seed/chunfeng-bianli08/400/300" width="400" height="300" loading="lazy" alt="春风便利店治愈日常漫画封面">
+            </div>
+            <div class="card-body">
+              <a class="card-title" href="/#picks">春风便利店</a>
+              <p class="card-points">夜班店员与常客的短篇合集，每话一个温暖小故事，单话 5 分钟可读完，适合睡前阅读。</p>
+              <div class="tags"><span class="tag">短篇合集</span><span class="tag">治愈</span><span class="tag">睡前读</span></div>
+              <div class="card-meta"><span class="score">8.0 分</span><span>周更 · 第 23 话</span></div>
+            </div>
+          </article>
+
+        </div>
+        <div class="no-result" id="noResult">没有找到匹配的漫画条目，试试“武侠”“治愈”“悬疑”等类型词。</div>
+      </section>
+
+      <!-- 3 最新更新 -->
+      <section class="section" id="updates">
+        <div class="section-head">
+          <h2>最新更新与连载动态</h2>
+          <span class="sub">2026-11-08 更新记录</span>
+        </div>
+        <ul class="updates-list">
+          <li><span class="time">今天 09:30</span><div><span class="u-title">《雾山五行》第 9 话上线</span><div class="u-desc">本话进入火行战斗收尾，单话分镜 92 格，平台同步更新。</div></div></li>
+          <li><span class="time">今天 08:15</span><div><span class="u-title">《镖人》第 28 话解禁</span><div class="u-desc">刀马遭遇新对手，双周更节奏回归，评论区讨论集中在打斗分镜。</div></div></li>
+          <li><span class="time">昨天 21:10</span><div><span class="u-title">《一人之下》第 632 话更新</span><div class="u-desc">身世线推进，冯宝宝相关伏笔回收一处，读者考据帖增多。</div></div></li>
+          <li><span class="time">昨天 18:40</span><div><span class="u-title">《深海异常信号》第 17 话</span><div class="u-desc">信号来源首次给出坐标线索，画面加入新科考舱场景。</div></div></li>
+          <li><span class="time">11 月 7 日</span><div><span class="u-title">《春风便利店》第 23 话</span><div class="u-desc">夜班店员与常客的跨年短篇，单话完结型故事。</div></div></li>
+          <li><span class="time">11 月 6 日</span><div><span class="u-title">《刺客伍六七》第 41 话</span><div class="u-desc">新委托为“寻找走失的猫”，单元剧结构不变，结尾埋短梗。</div></div></li>
+          <li><span class="time">11 月 5 日</span><div><span class="u-title">《蝉女》第 76 话</span><div class="u-desc">本期鉴定委托涉及旧识，对白密度较高，适合逐句阅读。</div></div></li>
+          <li><span class="time">11 月 4 日</span><div><span class="u-title">新作《山门夜话》上线</span><div class="u-desc">古风志怪短篇集，首日放出前 3 话，单话独立成篇。</div></div></li>
+          <li><span class="time">11 月 3 日</span><div><span class="u-title">《快把我哥带走》重制版</span><div class="u-desc">经典段子重新排版为移动端竖屏条漫，共 30 话试读。</div></div></li>
+          <li><span class="time">11 月 2 日</span><div><span class="u-title">《烬城纪》第 12 话</span><div class="u-desc">末世题材新作进入第一个大篇章，读者评分升至 8.6。</div></div></li>
+        </ul>
+      </section>
+
+      <!-- 4 分类入口 -->
+      <section class="section" id="categories">
+        <div class="section-head">
+          <h2>按类型找漫画</h2>
+          <span class="sub">8 个常用分类</span>
+        </div>
+        <div class="cat-grid">
+          <a class="cat-item" href="/#picks"><strong>动作奇幻</strong><span>雾山五行 · 高燃战斗</span></a>
+          <a class="cat-item" href="/#picks"><strong>武侠历史</strong><span>镖人 · 硬派江湖</span></a>
+          <a class="cat-item" href="/#picks"><strong>都市异能</strong><span>一人之下 · 异人世界</span></a>
+          <a class="cat-item" href="/#picks"><strong>悬疑解谜</strong><span>深海异常信号 · 慢热</span></a>
+          <a class="cat-item" href="/#picks"><strong>情感关系</strong><span>蝉女 · 对白驱动</span></a>
+          <a class="cat-item" href="/#picks"><strong>日常治愈</strong><span>春风便利店 · 短篇</span></a>
+          <a class="cat-item" href="/#picks"><strong>搞笑单元</strong><span>刺客伍六七 · 轻松</span></a>
+          <a class="cat-item" href="/#picks"><strong>校园短篇</strong><span>快把我哥带走 · 段子</span></a>
+        </div>
+      </section>
+
+      <!-- 5 深度解析 -->
+      <section class="section deep" id="deep">
+        <div class="section-head">
+          <h2>动作条漫与武侠长篇的阅读差异</h2>
+          <span class="sub">具体类型对照</span>
+        </div>
+        <p>在豆包漫画收录的条目里，动作奇幻条漫和武侠长篇是两类阅读体验差别很大的内容。前者靠分镜密度和单话爆点推进，后者靠人物关系和长线伏笔积累，选错类型容易中途弃追。</p>
+
+        <h3>动作奇幻条漫：看单话冲击力</h3>
+        <p>《雾山五行》这类作品的核心是单话内的战斗呈现。第 3 季第 9 话用 92 格完成一场火行收尾，平均每格信息量高，适合在平板或桌面端阅读。判断一部动作条漫是否值得追，可以先看第 3—5 话有没有一场完整的战斗段落，以及分镜是否读得顺。</p>
+        <ul>
+          <li>单话格数：80 格以上通常画面密度较高，移动端需要放大阅读。</li>
+          <li>更新节奏：季更或月更居多，适合一次性补完一个篇章。</li>
+          <li>弃追信号：连续三话以对白过场为主、缺少动作推进。</li>
+        </ul>
+
+        <h3>武侠长篇：看人物与历史线</h3>
+        <p>《镖人》的阅读重点在于刀马、小七与沿途人物的关系变化，以及隋唐交替背景下的势力线。第 28 话重新回到双周更后，读者更关注打斗写实度与历史细节。武侠长篇的入坑成本较高，建议先读前 10 话建立人物关系，再决定是否长期追更。</p>
+
+        <div class="callout">
+          对照要点：动作条漫适合“想在一话里获得强反馈”的阅读场景；武侠长篇适合“愿意花几周补番、关注人物弧光”的读者。两者对更新稳定性的要求也不同，前者容忍季更，后者更依赖双周更维持讨论热度。
+        </div>
+
+        <h3>短篇合集与单元剧：按单话完成度选</h3>
+        <p>《春风便利店》《刺客伍六七》属于单话可读完的类型，判断标准是“这一话本身是否完整”。春风便利店每话围绕一个常客展开，结尾往往落在一句对白上；刺客伍六七则用委托结构收束笑点。这类内容适合通勤或睡前，单话 3—5 分钟，不需要长期记忆前情。</p>
+
+        <table class="compare">
+          <thead>
+            <tr><th>对比维度</th><th>动作奇幻条漫</th><th>武侠长篇</th><th>短篇合集</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>单话时长</td><td>8—12 分钟</td><td>10—15 分钟</td><td>3—5 分钟</td></tr>
+            <tr><td>更新节奏</td><td>季更 / 月更</td><td>双周更</td><td>周更</td></tr>
+            <tr><td>入坑门槛</td><td>低，单话可看</td><td>中，需补前情</td><td>极低，单话独立</td></tr>
+            <tr><td>代表条目</td><td>雾山五行</td><td>镖人</td><td>春风便利店</td></tr>
+          </tbody>
+        </table>
+
+        <h3>悬疑与情感类：看信息释放节奏</h3>
+        <p>《深海异常信号》与《蝉女》的共同点是靠信息释放推进，但方向不同。前者每话给出一条新线索，适合边读边整理；后者靠对白里的关系变化，适合慢读。悬疑条漫的弃追信号通常是“连续两话没有新信息”，情感类则是“关系原地打转”。</p>
+      </section>
+
+      <!-- 6 体验指南 -->
+      <section class="section" id="guide">
+        <div class="section-head">
+          <h2>从哪部开始追：阅读顺序建议</h2>
+          <span class="sub">按时间与口味选择</span>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <h3>先定阅读场景</h3>
+            <p>通勤或碎片时间优先选《春风便利店》《刺客伍六七》这类单话完结内容；有整块时间再进入《镖人》《雾山五行》的篇章阅读。</p>
+          </div>
+          <div class="step">
+            <h3>再看前 3 话</h3>
+            <p>任何一部漫画先读前 3 话，判断画风是否习惯、分镜是否读得顺。第 3 话还没有建立追更动力，通常可以放下。</p>
+          </div>
+          <div class="step">
+            <h3>对照更新频率</h3>
+            <p>季更作品适合一次性补完，双周更适合持续跟讨论，周更适合养成固定阅读习惯。按自己的节奏选，别硬追快节奏。</p>
+          </div>
+          <div class="step">
+            <h3>用类型对照缩小范围</h3>
+            <p>喜欢强反馈选动作奇幻，喜欢人物关系选武侠长篇或情感类，喜欢解谜选悬疑。《一人之下》适合愿意看设定的读者。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 FAQ -->
+      <section class="section faq" id="faq">
+        <div class="section-head">
+          <h2>豆包漫画常见问答</h2>
+          <span class="sub">6 个高频问题</span>
+        </div>
+
+        <details>
+          <summary>《雾山五行》第三季多久更新一话？</summary>
+          <p>第三季以季更为主，单话制作周期较长，通常一个月左右更新一话。第 9 话已于 2026 年 11 月 8 日上线，下一话预计在 12 月上旬。</p>
+        </details>
+        <details>
+          <summary>《镖人》和《一人之下》有什么区别？</summary>
+          <p>《镖人》是隋唐背景的硬派武侠，重历史线与写实打斗；《一人之下》是现代都市异能，重门派设定与群像关系。前者适合喜欢历史武侠的读者，后者适合喜欢设定考据的读者。</p>
+        </details>
+        <details>
+          <summary>第一次追武侠条漫，从哪部开始比较好？</summary>
+          <p>建议从《镖人》前 10 话开始，人物关系清晰、单话信息量适中。如果想先看短篇练手，可以从《山门夜话》这类单话独立的志怪短篇入手。</p>
+        </details>
+        <details>
+          <summary>短篇条漫一般多久更新一次？</summary>
+          <p>《春风便利店》为周更，每话一个独立故事；《刺客伍六七》同样周更，单话可读完。这类作品不依赖前情，更新时间相对固定。</p>
+        </details>
+        <details>
+          <summary>悬疑类漫画怎么判断值不值得追？</summary>
+          <p>看前 5 话有没有给出明确的线索链。《深海异常信号》每话推进一条新线索，第 17 话首次给出坐标。若连续两话没有新信息，通常说明节奏偏慢。</p>
+        </details>
+        <details>
+          <summary>情感类条漫和动作条漫在阅读方式上有什么不同？</summary>
+          <p>情感类如《蝉女》以对白推进，适合逐句慢读；动作类如《雾山五行》以分镜推进，适合快速翻阅后回看战斗段落。两类对屏幕尺寸的要求也不同。</p>
+        </details>
+      </section>
+
+      <!-- 8 用户评论 -->
+      <section class="section" id="comments">
+        <div class="section-head">
+          <h2>读者在讨论什么</h2>
+          <span class="sub">16 条近期评论</span>
+        </div>
+        <div class="comments-grid">
+          <div class="comment"><div class="comment-head"><span class="avatar">墨</span><span class="name">墨鱼丸子</span><span class="date">11-08</span></div><p>《雾山五行》第 9 话的火行收尾分镜太密了，平板放大看才过瘾，手机有点吃力。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">刀</span><span class="name">刀马不骑马</span><span class="date">11-08</span></div><p>《镖人》恢复双周更了，第 28 话打斗回到写实路线，舒服。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">宝</span><span class="name">宝儿姐的刀</span><span class="date">11-07</span></div><p>《一人之下》632 话那个伏笔回收得不错，考据帖可以再挖一层。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">深</span><span class="name">深海监听员</span><span class="date">11-07</span></div><p>《深海异常信号》到 17 话才给坐标，前面确实慢，不过氛围我喜欢。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">春</span><span class="name">春风夜班</span><span class="date">11-06</span></div><p>《春风便利店》第 23 话跨年短篇看哭了，单话完结真的适合睡前。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">刺</span><span class="name">刺客小号</span><span class="date">11-06</span></div><p>《刺客伍六七》找猫那话笑点一般，但结尾短梗还是接了。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">蝉</span><span class="name">蝉女观察员</span><span class="date">11-05</span></div><p>《蝉女》76 话对白太密，我读了两遍才理清旧识关系。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">山</span><span class="name">山门守夜人</span><span class="date">11-05</span></div><p>《山门夜话》前三话质量在线，古风志怪单话独立，入坑无压力。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">烬</span><span class="name">烬城拾荒者</span><span class="date">11-04</span></div><p>《烬城纪》第 12 话进大篇章了，末世设定展开得比预想快。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">哥</span><span class="name">哥哥快走</span><span class="date">11-04</span></div><p>《快把我哥带走》重制版竖屏排版更顺了，段子重看还是好笑。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">一</span><span class="name">一人之下考据</span><span class="date">11-03</span></div><p>异人世界的门派线现在有点散，希望 633 话能收一收。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">雾</span><span class="name">雾里看花</span><span class="date">11-03</span></div><p>动作条漫季更真的熬人，但《雾山五行》值得等。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">镖</span><span class="name">镖局路人</span><span class="date">11-02</span></div><p>《镖人》历史细节考据帖越来越多了，评论区比正片热闹。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">悬</span><span class="name">悬疑读者甲</span><span class="date">11-01</span></div><p>《深海异常信号》画风冷但分镜清楚，慢热党可以试试。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">治</span><span class="name">治愈系小陈</span><span class="date">10-31</span></div><p>《春风便利店》每话都很短，但情绪给得准，推荐通勤看。</p></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">武</span><span class="name">武侠新读者</span><span class="date">10-30</span></div><p>第一次看《镖人》有点跟不上人物，读了前 10 话才顺，建议新人别跳。</p></div>
+        </div>
+      </section>
+
+      <!-- 9 相关资讯 -->
+      <section class="section" id="news">
+        <div class="section-head">
+          <h2>漫画相关资讯</h2>
+          <span class="sub">近期条目与类型动态</span>
+        </div>
+        <div class="news-list">
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-wushan11/600/400" width="600" height="400" loading="lazy" alt="雾山五行第三季更新资讯配图">
+            <div><div class="n-date">2026-11-08</div><a class="n-title" href="/#updates">《雾山五行》第三季第 9 话上线，火行战斗收尾</a><div class="n-sum">本话单话分镜 92 格，平台同步更新，评论区集中在战斗呈现。</div></div>
+          </div>
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-biaoren28/600/400" width="600" height="400" loading="lazy" alt="镖人第28话恢复双周更资讯配图">
+            <div><div class="n-date">2026-11-08</div><a class="n-title" href="/#updates">《镖人》第 28 话解禁，双周更节奏回归</a><div class="n-sum">刀马遭遇新对手，读者讨论打斗写实度与历史细节。</div></div>
+          </div>
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-shortcomic/600/400" width="600" height="400" loading="lazy" alt="短篇条漫增长趋势配图">
+            <div><div class="n-date">2026-11-06</div><a class="n-title" href="/#deep">短篇合集型条漫在移动端增长明显</a><div class="n-sum">单话 3—5 分钟可读完的作品在通勤场景更受欢迎，春风便利店、山门夜话为代表。</div></div>
+          </div>
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-yiren632/600/400" width="600" height="400" loading="lazy" alt="一人之下632话更新资讯配图">
+            <div><div class="n-date">2026-11-05</div><a class="n-title" href="/#updates">《一人之下》第 632 话推进身世线</a><div class="n-sum">冯宝宝相关伏笔回收一处，读者考据帖数量上升。</div></div>
+          </div>
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-shenhai17/600/400" width="600" height="400" loading="lazy" alt="深海异常信号第17话线索配图">
+            <div><div class="n-date">2026-11-04</div><a class="n-title" href="/#updates">《深海异常信号》第 17 话给出坐标线索</a><div class="n-sum">信号来源首次明确，画面加入新科考舱场景，悬疑线进入下一阶段。</div></div>
+          </div>
+          <div class="news-item">
+            <img src="https://picsum.photos/seed/news-shanmen/600/400" width="600" height="400" loading="lazy" alt="山门夜话新作上线资讯配图">
+            <div><div class="n-date">2026-11-02</div><a class="n-title" href="/#picks">古风志怪短篇《山门夜话》上线前三话</a><div class="n-sum">单话独立成篇，适合短篇读者试读，首日评分 8.1。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 相关推荐 -->
+      <section class="section" id="reco">
+        <div class="section-head">
+          <h2>延伸方向与相关标签</h2>
+          <span class="sub">按题材与场景扩展</span>
+        </div>
+        <div class="reco-tags">
+          <a href="/#picks">水墨风战斗条漫</a>
+          <a href="/#picks">隋唐武侠长篇</a>
+          <a href="/#picks">异人世界考据</a>
+          <a href="/#picks">深海悬疑解谜</a>
+          <a href="/#picks">都市情感对白</a>
+          <a href="/#picks">通勤短篇合集</a>
+          <a href="/#picks">单元剧搞笑</a>
+          <a href="/#picks">校园日常段子</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 右侧辅助栏 -->
+    <aside class="aside-col" aria-label="辅助信息">
+      <div class="aside-box" id="rank">
+        <h2>本周热度榜</h2>
+        <ol class="rank-list">
+          <li><a class="r-title" href="/#picks">雾山五行</a><span class="r-val">9.1</span></li>
+          <li><a class="r-title" href="/#picks">镖人</a><span class="r-val">8.9</span></li>
+          <li><a class="r-title" href="/#picks">一人之下</a><span class="r-val">8.7</span></li>
+          <li><a class="r-title" href="/#picks">烬城纪</a><span class="r-val">8.6</span></li>
+          <li><a class="r-title" href="/#picks">刺客伍六七</a><span class="r-val">8.5</span></li>
+          <li><a class="r-title" href="/#picks">蝉女</a><span class="r-val">8.4</span></li>
+          <li><a class="r-title" href="/#picks">深海异常信号</a><span class="r-val">8.3</span></li>
+          <li><a class="r-title" href="/#picks">春风便利店</a><span class="r-val">8.0</span></li>
+        </ol>
+      </div>
+
+      <div class="aside-box">
+        <h2>条目时间线</h2>
+        <ul class="timeline">
+          <li><span class="t-date">11-08</span>雾山五行 第 9 话上线</li>
+          <li><span class="t-date">11-08</span>镖人 第 28 话解禁</li>
+          <li><span class="t-date">11-07</span>一人之下 632 话更新</li>
+          <li><span class="t-date">11-04</span>山门夜话 前三话上线</li>
+          <li><span class="t-date">11-02</span>烬城纪 第 12 话</li>
+        </ul>
+      </div>
+
+      <div class="aside-box">
+        <h2>热门类型词</h2>
+        <div class="reco-tags">
+          <a href="/#categories">动作奇幻</a>
+          <a href="/#categories">武侠历史</a>
+          <a href="/#categories">都市异能</a>
+          <a href="/#categories">悬疑解谜</a>
+          <a href="/#categories">日常治愈</a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- 页尾 -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="/#top" aria-label="返回顶部">
+          <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#3b5bdb"/>
+            <circle cx="23" cy="25" r="10" fill="#f6b93b"/>
+            <circle cx="43" cy="40" r="12" fill="#e55039"/>
+          </svg>
+          <span class="logo-text">豆包漫画</span>
+        </a>
+        <p>聚合国漫、条漫与独立短篇的连载索引，提供条目推荐、类型对照、更新速报与读者讨论。</p>
+      </div>
+      <div class="footer-col">
+        <h3>内容导航</h3>
+        <a href="/#overview">领域概览</a>
+        <a href="/#picks">精选推荐</a>
+        <a href="/#updates">更新动态</a>
+        <a href="/#deep">深度解析</a>
+      </div>
+      <div class="footer-col">
+        <h3>分类查找</h3>
+        <a href="/#categories">动作奇幻</a>
+        <a href="/#categories">武侠历史</a>
+        <a href="/#categories">都市异能</a>
+        <a href="/#categories">悬疑解谜</a>
+      </div>
+      <div class="footer-col">
+        <h3>读者互动</h3>
+        <a href="/#faq">常见问答</a>
+        <a href="/#comments">读者评论</a>
+        <a href="/#news">相关资讯</a>
+        <a href="/#reco">延伸标签</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 豆包漫画 · 内容聚合示例</span>
+      <span>部分内容为示例数据，仅用于展示页面结构</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 移动菜单
+  var toggle = document.getElementById('menuToggle');
+  var nav = document.getElementById('mainNav');
+  if(toggle && nav){
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if(e.target.tagName === 'A'){
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  // 搜索筛选
+  var input = document.getElementById('searchInput');
+  var btn = document.getElementById('searchBtn');
+  var grid = document.getElementById('picksGrid');
+  var noResult = document.getElementById('noResult');
+  if(grid){
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    function doFilter(){
+      var q = (input.value || '').trim().toLowerCase();
+      if(!q){
+        cards.forEach(function(c){ c.style.display = ''; });
+        noResult.classList.remove('show');
+        return;
+      }
+      var visible = 0;
+      cards.forEach(function(c){
+        var text = (c.getAttribute('data-name') || '') + ' ' + c.textContent.toLowerCase();
+        var hit = text.toLowerCase().indexOf(q) > -1;
+        c.style.display = hit ? '' : 'none';
+        if(hit) visible++;
+      });
+      noResult.classList.toggle('show', visible === 0);
+    }
+    btn.addEventListener('click', doFilter);
+    input.addEventListener('keyup', function(e){ if(e.key === 'Enter') doFilter(); });
+    input.addEventListener('input', function(){
+      if(input.value.trim() === '') doFilter();
+    });
+  }
+
+  // 频道高亮（滚动）
+  var sections = document.querySelectorAll('main section[id]');
+  var channelLinks = document.querySelectorAll('.channels a');
+  if(sections.length && channelLinks.length){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          channelLinks.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === '/#' + en.target.id);
+          });
+        }
+      });
+    }, {rootMargin:'-30% 0px -60% 0px'});
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+})();
+</script>
+</body>
+                </html>
