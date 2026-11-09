@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>91网 - 视频内容聚合与栏目导航</title>
+<meta name="description" content="91网汇聚影视剪辑、生活记录、游戏实况、知识讲解等视频内容，提供栏目分类、最新更新、深度解析与观看指南，适合想快速找到并判断视频内容价值的观众。">
+<meta name="keywords" content="视频聚合,影视剪辑,生活记录,游戏实况,知识讲解">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2740'/%3E%3Cpath d='M20 18h24a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V24a6 6 0 0 1 6-6z' fill='%23f0a63a'/%3E%3Cpath d='M28 26l12 6-12 6z' fill='%230f2740'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#101c2b;
+  --ink-2:#2b3a4d;
+  --muted:#65758a;
+  --line:#dde4ec;
+  --line-soft:#eef2f7;
+  --bg:#f4f6f9;
+  --panel:#ffffff;
+  --brand:#0f2740;
+  --brand-2:#1b4a74;
+  --accent:#e08a2e;
+  --accent-soft:#fdf1e0;
+  --teal:#1c7c72;
+  --teal-soft:#e3f3f1;
+  --radius:14px;
+  --radius-sm:9px;
+  --shadow:0 1px 2px rgba(16,28,43,.05),0 8px 22px rgba(16,28,43,.06);
+  --shadow-sm:0 1px 2px rgba(16,28,43,.06);
+  --sticky-h:104px;
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--font);color:var(--ink);background:var(--bg);
+  line-height:1.7;font-size:15.5px;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.35;font-weight:700;letter-spacing:.01em}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+
+/* ---------- sticky stack ---------- */
+.sticky-stack{position:sticky;top:0;z-index:60}
+.notice{
+  background:linear-gradient(90deg,#0f2740,#1b4a74 55%,#1c7c72);
+  color:#eaf2fb;font-size:13px;letter-spacing:.01em;
+}
+.notice .wrap{
+  max-width:1360px;margin:0 auto;padding:7px 20px;
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.notice .tag{
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);
+  padding:1px 9px;border-radius:999px;font-size:11.5px;white-space:nowrap;font-weight:600;
+}
+.notice a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4)}
+.notice a:hover{border-bottom-color:#fff}
+.site-header{
+  background:rgba(255,255,255,.96);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(16,28,43,.05);
+}
+.header-inner{
+  max-width:1360px;margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.brand-mark{width:38px;height:38px;flex:0 0 auto}
+.brand-name{font-size:21px;font-weight:800;letter-spacing:.02em;color:var(--brand)}
+.brand-sub{display:block;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.14em}
+.top-nav{display:flex;gap:4px;flex-wrap:wrap;flex:1 1 auto}
+.top-nav a{
+  padding:6px 11px;border-radius:999px;font-size:14px;color:var(--ink-2);
+  transition:background .16s,color .16s;white-space:nowrap;
+}
+.top-nav a:hover,.top-nav a:focus-visible{background:var(--line-soft);color:var(--brand);outline:none}
+.top-nav a:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.header-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.search-box{position:relative;display:flex;align-items:center}
+.search-box input{
+  width:190px;padding:7px 12px 7px 32px;border:1px solid var(--line);border-radius:999px;
+  font-size:13.5px;background:#fff;color:var(--ink);outline:none;transition:border-color .16s,box-shadow .16s;
+}
+.search-box input:focus{border-color:var(--brand-2);box-shadow:0 0 0 3px rgba(27,74,116,.12)}
+.search-box svg{position:absolute;left:10px;width:15px;height:15px;color:var(--muted);pointer-events:none}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 16px;
+  font-size:14px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:.16s;
+}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-2)}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--ink-2)}
+.btn-ghost:hover{border-color:var(--brand-2);color:var(--brand)}
+
+main{max-width:1360px;margin:0 auto;padding:0 20px 64px}
+section{scroll-margin-top:calc(var(--sticky-h) + 14px)}
+
+/* ---------- hero ---------- */
+.hero{
+  margin-top:22px;background:linear-gradient(135deg,#0f2740 0%,#1b4a74 58%,#17415f 100%);
+  border-radius:20px;color:#eaf2fb;overflow:hidden;position:relative;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:24px;
+  padding:40px 40px 36px;box-shadow:var(--shadow);
+}
+.hero::after{
+  content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(224,138,46,.35),transparent 68%);pointer-events:none;
+}
+.hero-copy{position:relative;z-index:2;min-width:0}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.16em;
+  color:#f0c48a;font-weight:600;margin-bottom:14px;
+}
+.hero-kicker::before{content:"";width:26px;height:2px;background:var(--accent);border-radius:2px}
+.hero h1{font-size:clamp(30px,4.6vw,46px);letter-spacing:.03em;color:#fff;line-height:1.15}
+.hero-lead{margin-top:14px;font-size:15.5px;color:#c4d7e8;max-width:46ch}
+.hero-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.hero-actions .btn-primary{background:var(--accent);color:#231303}
+.hero-actions .btn-primary:hover{background:#f0a63a}
+.hero-actions .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#eaf2fb}
+.hero-actions .btn-ghost:hover{background:rgba(255,255,255,.16);color:#fff}
+.hero-stats{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.hero-stats b{display:block;font-size:22px;color:#fff;letter-spacing:.02em}
+.hero-stats span{font-size:12.5px;color:#a9c2d8;letter-spacing:.04em}
+.hero-visual{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+.hero-visual svg{width:100%;max-width:360px;height:auto}
+
+/* ---------- layout: three column ---------- */
+.layout{
+  display:grid;grid-template-columns:190px minmax(0,1fr) 300px;gap:26px;
+  align-items:start;margin-top:26px;
+}
+.channel-rail{
+  position:sticky;top:calc(var(--sticky-h) + 14px);
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 12px;box-shadow:var(--shadow-sm);
+}
+.channel-rail h2{font-size:13px;letter-spacing:.16em;color:var(--muted);font-weight:700;padding:0 8px 10px}
+.channel-rail a{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  padding:8px 10px;border-radius:var(--radius-sm);font-size:14px;color:var(--ink-2);
+  transition:.15s;line-height:1.4;
+}
+.channel-rail a:hover,.channel-rail a:focus-visible{background:var(--line-soft);color:var(--brand);outline:none}
+.channel-rail a:focus-visible{box-shadow:0 0 0 2px var(--accent) inset}
+.channel-rail a span{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.main-col{min-width:0;display:flex;flex-direction:column;gap:26px}
+.side-col{min-width:0;display:flex;flex-direction:column;gap:22px;position:sticky;top:calc(var(--sticky-h) + 14px)}
+
+/* ---------- generic panel ---------- */
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow-sm);
+}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.panel-head h2{font-size:20px;letter-spacing:.01em}
+.panel-head h2 em{
+  font-style:normal;font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);
+  border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:2px;letter-spacing:.06em;
+}
+.panel-head .more{font-size:13px;color:var(--brand-2);font-weight:600;border-bottom:1px solid transparent}
+.panel-head .more:hover{border-bottom-color:var(--brand-2)}
+.lead-text{font-size:15px;color:var(--ink-2);line-height:1.85}
+.lead-text p+p{margin-top:12px}
+.lead-text strong{color:var(--brand);font-weight:700}
+
+/* ---------- cards ---------- */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:16px}
+.card{
+  border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;background:#fff;
+  display:flex;flex-direction:column;transition:box-shadow .18s,transform .18s,border-color .18s;
+}
+.card:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:#c9d5e2}
+.card-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#e8edf3}
+.card-media img{width:100%;height:100%;object-fit:cover}
+.card-badge{
+  position:absolute;left:10px;top:10px;background:rgba(15,39,64,.86);color:#fff;
+  font-size:11.5px;padding:2px 9px;border-radius:999px;font-weight:600;letter-spacing:.04em;
+}
+.card-body{padding:13px 14px 15px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-body h3{font-size:15.5px;line-height:1.45}
+.card-body h3 a:hover{color:var(--brand-2)}
+.card-desc{font-size:13.5px;color:var(--muted);line-height:1.65;flex:1}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:11.5px;color:var(--teal);background:var(--teal-soft);border-radius:999px;
+  padding:1.5px 8px;font-weight:600;white-space:nowrap;
+}
+.tag.warm{color:#a8641a;background:var(--accent-soft)}
+.card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.card-meta b{color:var(--accent);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* ---------- update list ---------- */
+.update-list{display:grid;gap:2px}
+.update-item{
+  display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;
+  padding:11px 8px;border-radius:var(--radius-sm);transition:background .15s;
+}
+.update-item:hover{background:var(--line-soft)}
+.update-item time{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.update-item h3{font-size:14.5px;font-weight:700;margin-bottom:2px}
+.update-item p{font-size:13px;color:var(--muted);line-height:1.55}
+.pill{
+  font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap;
+  background:var(--line-soft);color:var(--ink-2);
+}
+.pill.new{background:var(--accent-soft);color:#a8641a}
+.pill.live{background:#fdeaea;color:#b23b3b}
+
+/* ---------- category ---------- */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.cat-card{
+  border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 14px 12px;background:#fff;
+  transition:.16s;display:block;
+}
+.cat-card:hover{border-color:var(--brand-2);background:#fbfdff}
+.cat-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cat-card b{display:block;font-size:14.5px;margin-bottom:3px}
+.cat-card span{font-size:12.5px;color:var(--muted);line-height:1.5;display:block}
+.cat-card i{font-style:normal;font-size:11.5px;color:var(--teal);font-weight:600;display:block;margin-top:7px}
+
+/* ---------- deep read ---------- */
+.deep h3{font-size:16.5px;margin:22px 0 8px;padding-left:11px;border-left:3px solid var(--accent);line-height:1.4}
+.deep h3:first-of-type{margin-top:6px}
+.deep p{font-size:15px;color:var(--ink-2);line-height:1.88;margin-bottom:10px}
+.deep ul{margin:8px 0 14px;display:grid;gap:7px}
+.deep ul li{
+  font-size:14.5px;color:var(--ink-2);line-height:1.75;padding-left:18px;position:relative;
+}
+.deep ul li::before{
+  content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:2px;
+  background:var(--teal);transform:rotate(45deg);
+}
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0 6px}
+.compare > div{border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 14px;background:#fafcfe}
+.compare b{display:block;font-size:13.5px;color:var(--brand);margin-bottom:5px}
+.compare p{font-size:13.5px;color:var(--muted);line-height:1.65;margin:0}
+
+/* ---------- steps ---------- */
+.steps{display:grid;gap:14px;counter-reset:step}
+.step{
+  display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;
+  padding:14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:#fbfdff;
+}
+.step::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-size:13px;font-weight:800;color:#fff;background:var(--brand-2);
+  width:34px;height:34px;border-radius:10px;display:grid;place-items:center;letter-spacing:.02em;
+}
+.step h3{font-size:15px;margin-bottom:4px}
+.step p{font-size:13.8px;color:var(--muted);line-height:1.7}
+
+/* ---------- FAQ ---------- */
+.faq{display:grid;gap:9px}
+.faq details{
+  border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;overflow:hidden;
+}
+.faq details[open]{border-color:#c2d2e2;background:#fbfdff}
+.faq summary{
+  cursor:pointer;padding:13px 44px 13px 15px;font-size:14.5px;font-weight:600;position:relative;
+  list-style:none;line-height:1.55;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:15px;top:50%;transform:translateY(-50%);
+  font-size:18px;color:var(--brand-2);font-weight:400;transition:transform .2s;
+}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.faq .ans{padding:0 15px 14px;font-size:14px;color:var(--ink-2);line-height:1.8}
+
+/* ---------- comments ---------- */
+.comment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.comment{
+  border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 14px;background:#fff;
+  display:flex;flex-direction:column;gap:6px;
+}
+.comment-head{display:flex;align-items:center;gap:8px}
+.avatar{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;
+  font-size:12px;font-weight:700;color:#fff;background:var(--brand-2);letter-spacing:.02em;
+}
+.comment-head b{font-size:13px;font-weight:700}
+.comment-head time{font-size:11.5px;color:var(--muted);margin-left:auto}
+.comment p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.comment .tag-row{margin-top:2px}
+
+/* ---------- news ---------- */
+.news-list{display:grid;gap:0}
+.news-item{
+  display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px 4px;border-bottom:1px dashed var(--line);
+  align-items:start;
+}
+.news-item:last-child{border-bottom:none}
+.news-item h3{font-size:15px;margin-bottom:5px}
+.news-item p{font-size:13.5px;color:var(--muted);line-height:1.65}
+.news-item time{font-size:12.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;padding-top:2px}
+
+/* ---------- recommend ---------- */
+.rec-tags{display:flex;flex-wrap:wrap;gap:9px}
+.rec-tags a{
+  border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;color:var(--ink-2);
+  background:#fff;transition:.15s;
+}
+.rec-tags a:hover{border-color:var(--brand-2);color:var(--brand);background:#f6faff}
+.rec-tags a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rec-tags a small{color:var(--muted);font-size:11.5px;margin-left:4px}
+
+/* ---------- ranking ---------- */
+.rank{display:grid;gap:0}
+.rank li{
+  display:grid;grid-template-columns:26px 1fr auto;gap:11px;align-items:center;
+  padding:9px 4px;border-bottom:1px dashed var(--line-soft);font-size:14px;
+}
+.rank li:last-child{border-bottom:none}
+.rank .num{font-weight:800;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+.rank li:nth-child(-n+3) .num{color:var(--accent)}
+.rank .t{min-width:0;line-height:1.45}
+.rank .t small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.rank .v{font-size:12.5px;color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- sidebar widgets ---------- */
+.widget h2{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.widget h2::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--accent)}
+.timeline{display:grid;gap:0;position:relative;padding-left:16px}
+.timeline::before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.timeline li{position:relative;padding:0 0 14px 0;font-size:13.5px;line-height:1.6}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{
+  content:"";position:absolute;left:-16px;top:7px;width:8px;height:8px;border-radius:50%;
+  background:#fff;border:2px solid var(--teal);
+}
+.timeline time{display:block;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.timeline b{font-weight:700;color:var(--ink)}
+.quick-links{display:grid;gap:6px}
+.quick-links a{
+  display:flex;justify-content:space-between;gap:8px;font-size:13.5px;padding:7px 9px;
+  border-radius:var(--radius-sm);color:var(--ink-2);transition:.15s;
+}
+.quick-links a:hover{background:var(--line-soft);color:var(--brand)}
+.quick-links a span{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.credit-note{font-size:13px;color:var(--muted);line-height:1.8;border-left:3px solid var(--teal);padding-left:12px}
+.credit-note b{color:var(--ink-2)}
+
+/* ---------- footer ---------- */
+.site-footer{background:#0f2740;color:#b8cadd;margin-top:20px}
+.footer-inner{max-width:1360px;margin:0 auto;padding:40px 20px 26px}
+.footer-top{display:grid;grid-template-columns:1.4fr 2fr;gap:34px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.footer-brand .brand-name{color:#fff}
+.footer-brand p{font-size:13.5px;color:#9fb6cc;margin-top:12px;max-width:38ch;line-height:1.8}
+.footer-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:22px}
+.footer-cols h3{font-size:13px;color:#fff;letter-spacing:.1em;margin-bottom:10px;font-weight:700}
+.footer-cols a{display:block;font-size:13.5px;color:#9fb6cc;padding:3px 0;transition:.15s}
+.footer-cols a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:18px;font-size:12.5px;color:#8099b1}
+.footer-bottom .disclaimer{color:#6f88a1}
+
+/* ---------- search state ---------- */
+.no-result{
+  display:none;padding:18px;border:1px dashed var(--line);border-radius:var(--radius-sm);
+  color:var(--muted);font-size:14px;background:#fbfdff;
+}
+body.searching .no-result{display:block}
+.hidden-by-search{display:none !important}
+
+@media (max-width:1100px){
+  :root{--sticky-h:100px}
+  .layout{grid-template-columns:170px minmax(0,1fr);gap:20px}
+  .side-col{grid-column:1 / -1;position:static;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .search-box input{width:150px}
+}
+@media (max-width:1024px){
+  .hero{grid-template-columns:1fr;padding:32px 26px}
+  .hero-visual{order:-1;justify-content:flex-start}
+  .hero-visual svg{max-width:260px}
+}
+@media (max-width:880px){
+  .layout{grid-template-columns:1fr}
+  .channel-rail{
+    position:static;display:flex;gap:6px;overflow-x:auto;padding:10px;align-items:center;
+    -webkit-overflow-scrolling:touch;
+  }
+  .channel-rail h2{display:none}
+  .channel-rail a{white-space:nowrap;padding:7px 12px;border:1px solid var(--line);font-size:13.5px}
+  .channel-rail a span{display:none}
+  .top-nav{order:3;flex-basis:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+}
+@media (max-width:740px){
+  body{font-size:15px}
+  .header-inner{padding:9px 14px;gap:10px}
+  .search-box input{width:128px;font-size:13px}
+  .brand-name{font-size:19px}
+  .brand-sub{display:none}
+  .notice .wrap{padding:6px 14px;font-size:12px}
+  main{padding:0 14px 48px}
+  .hero{padding:24px 20px;border-radius:16px;margin-top:16px}
+  .hero-stats{gap:18px}
+  .panel{padding:17px 15px;border-radius:12px}
+  .panel-head h2{font-size:18px}
+  .card-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+  .update-item{grid-template-columns:1fr auto;gap:6px}
+  .update-item time{grid-column:1/-1;order:3;font-size:12px}
+  .news-item{grid-template-columns:1fr}
+  .news-item time{order:-1;padding-top:0}
+  .footer-top{grid-template-columns:1fr;gap:24px}
+  .footer-inner{padding:30px 14px 22px}
+  .btn{padding:7px 13px;font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important;scroll-behavior:auto !important}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<div class="sticky-stack">
+  <div class="notice">
+    <div class="wrap">
+      <span class="tag">更新</span>
+      <span>11 月 8 日新增 12 条视频条目：「城市夜行记录·重庆篇」「星轨延时拍摄全流程」等已上线。</span>
+      <a href="/#latest">查看最新更新 →</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/#top" aria-label="91网 首页">
+        <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="91网 标志">
+          <rect width="64" height="64" rx="15" fill="#0f2740"/>
+          <path d="M19 17h26a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H19a6 6 0 0 1-6-6V23a6 6 0 0 1 6-6z" fill="#e08a2e"/>
+          <path d="M28 25.5l12.5 6.5L28 38.5z" fill="#0f2740"/>
+          <circle cx="49" cy="15" r="5" fill="#1c7c72"/>
+        </svg>
+        <span>
+          <span class="brand-name">91网</span>
+          <span class="brand-sub">VIDEO INDEX</span>
+        </span>
+      </a>
+
+      <nav class="top-nav" aria-label="频道导航">
+        <a href="/#overview">领域概览</a>
+        <a href="/#picks">精选条目</a>
+        <a href="/#latest">最新更新</a>
+        <a href="/#categories">分类入口</a>
+        <a href="/#deep">深度解析</a>
+        <a href="/#guide">观看指南</a>
+        <a href="/#faq">常见问答</a>
+      </nav>
+
+      <div class="header-actions">
+        <form class="search-box" role="search" onsubmit="return false;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+          <input id="siteSearch" type="search" placeholder="搜索条目 / 类型" aria-label="搜索站内条目与类型">
+        </form>
+        <a class="btn btn-primary" href="/#picks">开始浏览</a>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <span class="hero-kicker">视频内容聚合 · 条目索引</span>
+      <h1 id="hero-title">91网</h1>
+      <p class="hero-lead">把影视剪辑、生活记录、游戏实况、知识讲解与幕后花絮集中到一处：每条都标出类型、时长区间与看点，方便先判断再决定看什么。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/#picks">看本周精选条目</a>
+        <a class="btn btn-ghost" href="/#categories">按类型找内容</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>2,184</b><span>收录条目</span></div>
+        <div><b>12</b><span>内容频道</span></div>
+        <div><b>11-08</b><span>最近更新</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 360 300" role="presentation">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f0a63a"/><stop offset="1" stop-color="#e08a2e"/>
+          </linearGradient>
+        </defs>
+        <rect x="26" y="46" width="240" height="150" rx="14" fill="#123354" stroke="#2c5b85" stroke-width="2"/>
+        <rect x="44" y="64" width="204" height="88" rx="8" fill="#0b2035"/>
+        <path d="M132 92l40 21-40 21z" fill="url(#g1)"/>
+        <rect x="44" y="162" width="120" height="8" rx="4" fill="#2c5b85"/>
+        <rect x="44" y="176" width="72" height="8" rx="4" fill="#234a6e"/>
+        <rect x="200" y="120" width="132" height="98" rx="12" fill="#173f63" stroke="#2c5b85" stroke-width="2"/>
+        <rect x="214" y="134" width="104" height="52" rx="7" fill="#0b2035"/>
+        <circle cx="240" cy="160" r="12" fill="#1c7c72"/>
+        <path d="M236 154l9 6-9 6z" fill="#eaf2fb"/>
+        <rect x="214" y="196" width="66" height="7" rx="3.5" fill="#2c5b85"/>
+        <rect x="290" y="196" width="28" height="7" rx="3.5" fill="#e08a2e"/>
+        <rect x="66" y="222" width="228" height="52" rx="10" fill="#173f63" stroke="#2c5b85" stroke-width="2"/>
+        <rect x="80" y="236" width="42" height="24" rx="5" fill="#0b2035"/>
+        <rect x="132" y="238" width="94" height="7" rx="3.5" fill="#3a6d98"/>
+        <rect x="132" y="252" width="62" height="6" rx="3" fill="#2c5b85"/>
+        <rect x="246" y="238" width="34" height="20" rx="10" fill="#e08a2e" opacity=".85"/>
+      </svg>
+    </div>
+  </section>
+
+  <div class="layout">
+    <!-- LEFT CHANNEL RAIL -->
+    <aside class="channel-rail" aria-label="频道索引">
+      <h2>频道索引</h2>
+      <a href="/#overview">领域概览 <span>01</span></a>
+      <a href="/#picks">精选条目 <span>02</span></a>
+      <a href="/#latest">最新更新 <span>03</span></a>
+      <a href="/#categories">分类入口 <span>04</span></a>
+      <a href="/#deep">深度解析 <span>05</span></a>
+      <a href="/#guide">观看指南 <span>06</span></a>
+      <a href="/#faq">常见问答 <span>07</span></a>
+      <a href="/#comments">观众评论 <span>08</span></a>
+      <a href="/#news">相关资讯 <span>09</span></a>
+      <a href="/#recommend">延伸方向 <span>10</span></a>
+      <a href="/#ranking">热度榜单 <span>11</span></a>
+      <a href="/#timeline">更新脉络 <span>12</span></a>
+    </aside>
+
+    <!-- MAIN COLUMN -->
+    <div class="main-col">
+
+      <!-- 1. 领域概览 -->
+      <section class="panel" id="overview" aria-labelledby="overview-h">
+        <div class="panel-head">
+          <h2 id="overview-h">视频内容领域概览</h2>
+        </div>
+        <div class="lead-text">
+          <p>视频内容并不只是“长短”之分。按制作方式，可粗分为<strong>剪辑重组类</strong>（影视解说、混剪、cut 精编）、<strong>原创拍摄类</strong>（生活记录、探店、旅拍、城市漫步）、<strong>过程实录类</strong>（游戏实况、手作过程、开箱、实验）和<strong>信息讲解类</strong>（知识科普、软件教程、器材评测）。四类内容的观看节奏、判断标准与更新频率差别很大。</p>
+          <p>剪辑重组类通常以 3—15 分钟为主，核心看点是选段逻辑与解说角度；原创拍摄类时长弹性最大，从 40 秒的竖屏片段到 20 分钟的纪录片式记录都有，判断重点是画面稳定性、叙事线索与信息密度；过程实录类几乎完全依赖“过程是否真实完整”，观众会关注有没有剪掉关键步骤；信息讲解类则要看过论据来源与结论是否可复核。</p>
+          <p>本周值得留意的方向有三个：一是城市夜行记录类内容明显增多，重庆、长沙、泉州等地的夜间街景素材集中上线；二是器材与拍摄流程类讲解开始细化到具体参数设置，出现了以“星轨延时怎么拍”为主题的长教程；三是游戏实况中“无解说纯流程”版本受到部分观众偏好，与高密度解说版形成互补。这些变化直接影响你挑选条目时的判断顺序。</p>
+        </div>
+      </section>
+
+      <!-- 2. 精选条目 -->
+      <section class="panel" id="picks" aria-labelledby="picks-h">
+        <div class="panel-head">
+          <h2 id="picks-h">本周精选条目 <em>8 条</em></h2>
+          <a class="more" href="/#latest">全部更新 →</a>
+        </div>
+        <div class="card-grid" id="pickGrid">
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/chengshi-yexing08/400/300" alt="城市夜行记录·重庆篇 夜间街景画面" width="400" height="300" loading="lazy">
+              <span class="card-badge">生活记录</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">城市夜行记录·重庆篇</a></h3>
+              <p class="card-desc">从解放碑走到较场口，全程无解说，只保留环境声与脚步声。适合想了解山城夜间步行路线与街区氛围的人。</p>
+              <div class="tag-row"><span class="tag">城市漫步</span><span class="tag">无解说</span><span class="tag warm">18 分钟</span></div>
+              <div class="card-meta"><span>更新 11-07</span><b>9.1</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/xinggui-yanshi03/400/300" alt="星轨延时拍摄全流程 夜空星轨成片画面" width="400" height="300" loading="lazy">
+              <span class="card-badge">知识讲解</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">星轨延时拍摄全流程</a></h3>
+              <p class="card-desc">从机位选择、间隔设置到后期堆栈，把一次 4 小时拍摄拆成 6 个可复现步骤，附常见失败原因。</p>
+              <div class="tag-row"><span class="tag">摄影教程</span><span class="tag">延时</span><span class="tag warm">24 分钟</span></div>
+              <div class="card-meta"><span>更新 11-06</span><b>9.4</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/yingdan-jieshuo11/400/300" alt="悬疑片三十分钟解说 影片关键场景截图" width="400" height="300" loading="lazy">
+              <span class="card-badge">影视剪辑</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">悬疑片《雾港》三十分钟解说</a></h3>
+              <p class="card-desc">按时间线重排片中三次反转，标注原片对应分钟数，方便已看过的人对照，也适合未看的观众判断是否值得补。</p>
+              <div class="tag-row"><span class="tag">悬疑</span><span class="tag">时间线重排</span><span class="tag warm">31 分钟</span></div>
+              <div class="card-meta"><span>更新 11-05</span><b>8.8</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/youxi-wujieshuo06/400/300" alt="开放世界游戏无解说流程 游戏场景截图" width="400" height="300" loading="lazy">
+              <span class="card-badge">游戏实况</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">开放世界主线无解说流程·第 8 段</a></h3>
+              <p class="card-desc">保留全部过场与探索路径，剪掉重复跑图。适合想复盘剧情顺序、或对照自己存档进度的玩家。</p>
+              <div class="tag-row"><span class="tag">无解说</span><span class="tag">主线流程</span><span class="tag warm">52 分钟</span></div>
+              <div class="card-meta"><span>更新 11-08</span><b>9.0</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/shoutai-kaixiang09/400/300" alt="手作开箱·木质机械键盘组装 桌面零件实拍" width="400" height="300" loading="lazy">
+              <span class="card-badge">过程实录</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">手作开箱·木质机械键盘组装</a></h3>
+              <p class="card-desc">从轴体润轴到外壳打蜡，完整保留 3 小时流程中的关键判断点，包括两次返工的原因。</p>
+              <div class="tag-row"><span class="tag">手作</span><span class="tag">开箱</span><span class="tag warm">36 分钟</span></div>
+              <div class="card-meta"><span>更新 11-04</span><b>8.6</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/quanzhou-gujie04/400/300" alt="泉州古街一日 红砖骑楼街景" width="400" height="300" loading="lazy">
+              <span class="card-badge">生活记录</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">泉州古街一日·从西街到涂门街</a></h3>
+              <p class="card-desc">以步行路线为线索，记录沿途老宅、小吃摊与街口榕树，配有简短字幕说明地点，适合出行前做路线参考。</p>
+              <div class="tag-row"><span class="tag">旅拍</span><span class="tag">路线参考</span><span class="tag warm">22 分钟</span></div>
+              <div class="card-meta"><span>更新 11-03</span><b>8.9</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/ruanjian-jiaocheng12/400/300" alt="剪辑软件调色入门 软件界面截图" width="400" height="300" loading="lazy">
+              <span class="card-badge">知识讲解</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">剪辑软件调色入门·三步建立风格</a></h3>
+              <p class="card-desc">用同一段素材演示冷调、暖调与低饱和三种方向，重点讲清色轮与曲线各自解决什么问题。</p>
+              <div class="tag-row"><span class="tag">剪辑教程</span><span class="tag">调色</span><span class="tag warm">17 分钟</span></div>
+              <div class="card-meta"><span>更新 11-02</span><b>8.7</b></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/hunjianta01/400/300" alt="电影混剪·雨夜主题 雨幕与霓虹画面" width="400" height="300" loading="lazy">
+              <span class="card-badge">影视剪辑</span>
+            </div>
+            <div class="card-body">
+              <h3><a href="/#picks">电影混剪·雨夜主题十二段</a></h3>
+              <p class="card-desc">选取十二部影片中的雨夜段落，按镜头节奏重新编排，片尾列出每段出处，可作为镜头语言参考。</p>
+              <div class="tag-row"><span class="tag">混剪</span><span class="tag">镜头语言</span><span class="tag warm">6 分钟</span></div>
+              <div class="card-meta"><span>更新 11-01</span><b>8.5</b></div>
+            </div>
+          </article>
+
+        </div>
+        <p class="no-result" id="noResult">没有匹配的条目，换个类型词试试，例如「悬疑」「旅拍」「无解说」。</p>
+      </section>
+
+      <!-- 3. 最新更新 -->
+      <section class="panel" id="latest" aria-labelledby="latest-h">
+        <div class="panel-head">
+          <h2 id="latest-h">最新更新与上线动态</h2>
+          <span class="more">截至 11-08 11:20</span>
+        </div>
+        <ul class="update-list">
+          <li class="update-item">
+            <time>今天 11:20</time>
+            <div><h3>开放世界主线无解说流程·第 8 段</h3><p>第 8 段已上线，进入主线第二幕，含两段过场动画。</p></div>
+            <span class="pill new">新上线</span>
+          </li>
+          <li class="update-item">
+            <time>今天 09:45</time>
+            <div><h3>城市夜行记录·重庆篇</h3><p>补充了较场口至十八梯的完整步行段落，时长增至 18 分钟。</p></div>
+            <span class="pill">已更新</span>
+          </li>
+          <li class="update-item">
+            <time>昨天 21:10</time>
+            <div><h3>星轨延时拍摄全流程</h3><p>新增“间隔设置对照表”章节，回应评论区关于快门参数的提问。</p></div>
+            <span class="pill">已更新</span>
+          </li>
+          <li class="update-item">
+            <time>昨天 18:30</time>
+            <div><h3>悬疑片《雾港》三十分钟解说</h3><p>修正了原片第 47 分钟处的时间码标注错误。</p></div>
+            <span class="pill">勘误</span>
+          </li>
+          <li class="update-item">
+            <time>11-06 20:00</time>
+            <div><h3>手作开箱·木质机械键盘组装</h3><p>下集预告：外壳上蜡与手感对比，预计 11 月 10 日上线。</p></div>
+            <span class="pill">预告</span>
+          </li>
+          <li class="update-item">
+            <time>11-06 14:20</time>
+            <div><h3>泉州古街一日·从西街到涂门街</h3><p>新增字幕地点标注，方便按图索骥安排路线。</p></div>
+            <span class="pill">已更新</span>
+          </li>
+          <li class="update-item">
+            <time>11-05 19:40</time>
+            <div><h3>剪辑软件调色入门·三步建立风格</h3><p>配套素材包开放，含三段可自由练习的原始片段。</p></div>
+            <span class="pill new">新上线</span>
+          </li>
+          <li class="update-item">
+            <time>11-05 10:05</time>
+            <div><h3>电影混剪·雨夜主题十二段</h3><p>片尾出处列表扩充为逐段标注，便于检索原片。</p></div>
+            <span class="pill">已更新</span>
+          </li>
+          <li class="update-item">
+            <time>11-04 16:15</time>
+            <div><h3>城市夜行记录·长沙篇</h3><p>夜宵摊段落因环境噪音重录，音轨已替换。</p></div>
+            <span class="pill">勘误</span>
+          </li>
+          <li class="update-item">
+            <time>11-03 22:00</time>
+            <div><h3>游戏速通·经典平台跳跃类</h3><p>今晚 22:00 直播预告：限时两小时内完成全收集路线。</p></div>
+            <span class="pill live">直播</span>
+          </li>
+          <li class="update-item">
+            <time>11-03 09:30</time>
+            <div><h3>器材评测·入门麦克风六款横评</h3><p>新增室内人声与户外环境声两组对照录音。</p></div>
+            <span class="pill">已更新</span>
+          </li>
+          <li class="update-item">
+            <time>11-01 12:00</time>
+            <div><h3>纪录片式记录·海边小城三日</h3><p>第一集上线，按天分段，每集 12—15 分钟。</p></div>
+            <span class="pill new">新上线</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 4. 分类入口 -->
+      <section class="panel" id="categories" aria-labelledby="cat-h">
+        <div class="panel-head">
+          <h2 id="cat-h">分类入口</h2>
+          <span class="more">按类型定位条目</span>
+        </div>
+        <div class="cat-grid">
+          <a class="cat-card" href="/#picks"><b>影视剪辑</b><span>解说、混剪、cut 精编与时间线重排</span><i>318 条</i></a>
+          <a class="cat-card" href="/#picks"><b>生活记录</b><span>城市漫步、旅拍、日常片段与探店</span><i>402 条</i></a>
+          <a class="cat-card" href="/#picks"><b>游戏实况</b><span>主线流程、无解说实录与速通路线</span><i>356 条</i></a>
+          <a class="cat-card" href="/#picks"><b>知识讲解</b><span>科普、软件教程、器材评测与原理拆解</span><i>284 条</i></a>
+          <a class="cat-card" href="/#picks"><b>过程实录</b><span>手作、开箱、实验与完整制作流程</span><i>176 条</i></a>
+          <a class="cat-card" href="/#picks"><b>幕后花絮</b><span>拍摄现场、器材准备与制作复盘</span><i>132 条</i></a>
+          <a class="cat-card" href="/#picks"><b>旅行路线</b><span>可复现的步行路线与一日行程记录</span><i>208 条</i></a>
+          <a class="cat-card" href="/#picks"><b>摄影摄像</b><span>机位、参数、延时与后期堆栈</span><i>164 条</i></a>
+        </div>
+      </section>
+
+      <!-- 5. 深度解析 -->
+      <section class="panel deep" id="deep" aria-labelledby="deep-h">
+        <div class="panel-head">
+          <h2 id="deep-h">深度解析：四类视频内容的判断维度</h2>
+        </div>
+
+        <h3>剪辑重组类：先看选段逻辑，再看解说角度</h3>
+        <p>剪辑重组类内容的质量差异，主要不在画质，而在“选了什么、为什么这么选”。一部两小时的影片被压成三十分钟，必然要做取舍：是按时间线顺叙，还是围绕人物动机重组，或以某个主题串联片段。三种做法对应完全不同的观看价值。</p>
+        <ul>
+          <li><b>顺叙型解说</b>：适合尚未观看原片、想先判断是否值得投入两小时的人。判断要点是它有没有交代被省略的段落，以及是否在关键反转处保留悬念。</li>
+          <li><b>主题型混剪</b>：适合已经看过原片、想从镜头语言或情绪线索重新理解作品的人。判断要点是片段出处是否标注清楚。</li>
+          <li><b>时间线重排</b>：适合想理清复杂叙事结构的人，例如多线并进的悬疑片。判断要点是重排后有没有破坏原有的信息揭示顺序。</li>
+        </ul>
+        <p>《雾港》三十分钟解说属于第一类与第三类的结合：它保留原片顺序，但对三次反转分别标注了对应的原片分钟数。这种做法的好处是，观众可以在看完解说后直接跳到原片对应位置复核，而不必整片重看。</p>
+
+        <h3>原创拍摄类：画面稳定性与叙事线索的取舍</h3>
+        <p>生活记录与旅拍类内容最常见的两个问题是画面晃动与线索松散。前者影响观看舒适度，后者影响信息获取效率。一个可操作的判断方法是：看前两分钟有没有出现明确的空间线索——比如路牌、店招、地铁站名，或者一句说明“现在从哪走到哪”。有空间线索的记录，观众能建立心理地图，后续画面才有落点。</p>
+        <div class="compare">
+          <div><b>强线索型</b><p>以路线、时间或事件推进，字幕标注地点，适合出行参考与路线复现。</p></div>
+          <div><b>氛围型</b><p>弱化解说，强调环境声与画面质感，适合放松观看，但不宜作为出行依据。</p></div>
+          <div><b>人物型</b><p>围绕具体人物展开，记录其一天或一段经历，判断重点是人物关系是否交代清楚。</p></div>
+        </div>
+        <p>《泉州古街一日》与《城市夜行记录·重庆篇》分别落在强线索型与氛围型两端。前者适合出发前对照路线，后者更适合在通勤或睡前作为环境声背景。两者并不存在优劣，关键在于你当下的需求是“获取路线信息”还是“获得放松体验”。</p>
+
+        <h3>过程实录类：完整度比精致度更重要</h3>
+        <p>手作、开箱、实验类内容的核心价值是“过程可复现”。观众往往带着具体问题来看：这一步为什么这么做，失败了怎么办，材料能不能替换。因此判断标准与影视剪辑类几乎相反——剪辑越碎、跳过越多，参考价值越低。</p>
+        <ul>
+          <li>看它有没有保留失败与返工：只展示成功结果的流程，参考价值有限。</li>
+          <li>看关键步骤有没有给出参数：温度、时长、用量、型号，缺一项都会让复现变难。</li>
+          <li>看它是否说明替代方案：材料买不到时怎么办，往往比标准流程更实用。</li>
+        </ul>
+        <p>木质机械键盘组装那期保留了两次返工，一次是润轴过量导致手感发黏，一次是外壳孔位偏差。这类内容对准备动手的人价值最高，因为失败信息通常不会出现在成品展示里。</p>
+
+        <h3>信息讲解类：论据来源决定可信度</h3>
+        <p>知识讲解、软件教程与器材评测的共同点是“给出结论”。结论是否可信，取决于论据是否可复核。摄影类教程尤其如此：同样讲星轨拍摄，有的只给一组参数，有的会说明这组参数对应什么纬度、什么光污染等级、什么焦段。后者才能被不同条件下的观众调整使用。</p>
+        <p>器材评测则要看对照条件是否一致。入门麦克风横评如果只放成品音频，观众无法判断差异来自麦克风还是录音环境；提供室内人声与户外环境声两组对照，才具备参考意义。软件教程同理，调色教程若只用一段素材演示，观众难以判断方法能否迁移到自己的素材上。</p>
+
+        <h3>把四类标准放到一起看</h3>
+        <p>同样是“值得看”，四类内容的含义并不相同：剪辑重组类看取舍是否合理，原创拍摄类看线索是否清晰，过程实录类看完整度是否足够，信息讲解类看论据是否可复核。把这四个维度分开之后，挑选条目就不再依赖单一的热度数字，而可以先按需求定位类型，再在类型内部比较。</p>
+      </section>
+
+      <!-- 6. 观看指南 -->
+      <section class="panel" id="guide" aria-labelledby="guide-h">
+        <div class="panel-head">
+          <h2 id="guide-h">观看指南：从哪一类开始</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div>
+              <h3>先确定这次观看的目的</h3>
+              <p>想放松，优先氛围型生活记录；想获取信息，优先知识讲解与强线索型旅拍；想复盘剧情，优先时间线重排类解说；想动手做点什么，优先过程实录。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>用前两分钟判断是否继续</h3>
+              <p>看开头有没有交代清楚“这是什么、在哪里、要讲什么”。信息讲解类还要看它有没有在前两分钟说明结论适用范围，这往往预示后续论据是否严谨。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>比较同类条目的三个指标</h3>
+              <p>时长是否与信息量匹配、更新是否连续、评论区是否出现具体的使用反馈。三个指标里，具体反馈比评分数字更有参考价值。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>按投入时间排序，而不是按热度</h3>
+              <p>六分钟的混剪适合碎片时间，五十分钟的无解说流程需要整块时间。先看时长能否塞进当下时段，再决定看哪条，比直接从榜首开始更有效率。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. FAQ -->
+      <section class="panel" id="faq" aria-labelledby="faq-h">
+        <div class="panel-head">
+          <h2 id="faq-h">常见问答</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>第一次接触这类视频内容，从哪个条目开始看比较好？</summary>
+            <div class="ans">如果只是想感受一下，建议从 6 分钟的《电影混剪·雨夜主题十二段》开始，节奏快、门槛低；如果打算长期关注，可以先看一期过程实录，例如木质机械键盘组装，能较快判断自己是否接受长时长、慢节奏的内容形态。</div>
+          </details>
+          <details>
+            <summary>影视解说和混剪有什么区别？</summary>
+            <div class="ans">解说以讲清剧情为目的，通常按时间线推进并配有旁白；混剪以主题或情绪为线索，把不同作品的片段重新编排，一般不承担完整叙事。前者适合判断要不要看原片，后者适合研究镜头语言。</div>
+          </details>
+          <details>
+            <summary>游戏无解说流程和高密度解说版各适合谁？</summary>
+            <div class="ans">无解说版保留完整过场与探索路径，适合已经上手、想复盘剧情顺序或对照存档进度的玩家；高密度解说版会跳过重复内容并补充机制说明，适合还没入手、想先了解玩法的人。</div>
+          </details>
+          <details>
+            <summary>生活记录类的更新频率一般是怎样的？</summary>
+            <div class="ans">城市漫步类通常按城市或街区成系列更新，一座城市 2—4 期，间隔一周左右；旅拍类受出行安排影响，常见做法是一次出行拆成多期陆续发布。遇到长期停更，多半是素材周期问题，而非内容终止。</div>
+          </details>
+          <details>
+            <summary>摄影教程里的参数可以直接照搬吗？</summary>
+            <div class="ans">不建议直接照搬。星轨、延时这类拍摄的参数与纬度、光污染等级、焦段和光圈都有关。更稳妥的做法是先看教程有没有说明拍摄条件，再按自己的环境做一到两档调整，试拍几分钟后回看直方图。</div>
+          </details>
+          <details>
+            <summary>怎么判断一期器材评测是否值得参考？</summary>
+            <div class="ans">看它有没有给出对照条件：同一段素材、同一录音环境、同一测试流程。只放成品展示、不说明对比方式的评测，结论参考价值有限。提供多场景对照录音的横评，通常更接近实际使用情况。</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 8. 评论 -->
+      <section class="panel" id="comments" aria-labelledby="comments-h">
+        <div class="panel-head">
+          <h2 id="comments-h">观众评论 <em>16 条</em></h2>
+        </div>
+        <div class="comment-grid">
+          <div class="comment"><div class="comment-head"><span class="avatar">林</span><b>林间慢走</b><time>今天 10:12</time></div><p>重庆那期从较场口往下走的那段，路面坡度拍得很真实，比很多加了滤镜的旅拍有用。</p><div class="tag-row"><span class="tag">城市漫步</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">陈</span><b>陈默拍星空</b><time>今天 09:03</time></div><p>星轨教程里那张间隔对照表解决了我一直以来的困惑，之前按别人的参数拍总是断轨。</p><div class="tag-row"><span class="tag">延时摄影</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">周</span><b>周末补片人</b><time>昨天 22:41</time></div><p>《雾港》解说标注了原片分钟数，这点很实用。看完直接跳过去复核了第三次反转。</p><div class="tag-row"><span class="tag">悬疑</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">许</span><b>许愿不加班</b><time>昨天 21:15</time></div><p>无解说流程对我来说还是太长了，五十分钟很难一次看完，得分两三次。</p><div class="tag-row"><span class="tag">游戏实况</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">吴</span><b>吴记手作</b><time>昨天 19:48</time></div><p>键盘组装那期把润轴过量导致发黏也放进去了，这个细节比成品展示有价值得多。</p><div class="tag-row"><span class="tag">手作</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">郑</span><b>郑在泉州</b><time>昨天 17:30</time></div><p>西街到涂门街按视频走了一遍，字幕标的地点基本准确，就是小吃摊位置换了。</p><div class="tag-row"><span class="tag">旅拍</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">何</span><b>何工调色中</b><time>11-07 23:20</time></div><p>调色教程三步法讲得清楚，但三段素材本身色调差异不大，迁移到自己素材上还是要多试。</p><div class="tag-row"><span class="tag">剪辑教程</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">高</span><b>高架桥下</b><time>11-07 20:06</time></div><p>雨夜混剪的片尾出处列表做得细，逐段标注省了不少检索时间。</p><div class="tag-row"><span class="tag">混剪</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">马</span><b>马路边边</b><time>11-07 15:44</time></div><p>长沙那期夜宵摊段落重录之后环境声舒服多了，之前那版确实吵。</p><div class="tag-row"><span class="tag">生活记录</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">冯</span><b>冯先生听声</b><time>11-07 11:02</time></div><p>麦克风横评给了室内和户外两组对照，这个做法比只放成品音频靠谱。</p><div class="tag-row"><span class="tag">器材评测</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">罗</span><b>罗盘指北</b><time>11-06 22:37</time></div><p>海边小城三日的节奏偏慢，第一集前五分钟几乎没有对白，需要一点耐心。</p><div class="tag-row"><span class="tag">纪录片</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">宋</span><b>宋小舟</b><time>11-06 18:19</time></div><p>速通直播预告写了两小时全收集，实际路线里有两段是重复跑图，看着有点闷。</p><div class="tag-row"><span class="tag">速通</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">唐</span><b>唐不苦</b><time>11-06 13:55</time></div><p>城市夜行系列如果能统一标注步行总里程就更好了，现在只能自己估。</p><div class="tag-row"><span class="tag">城市漫步</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">韩</span><b>韩式冷面</b><time>11-05 21:28</time></div><p>解说类内容我最在意有没有剧透预警，这期在开头标了，好评。</p><div class="tag-row"><span class="tag">影视剪辑</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">曹</span><b>曹同学在学</b><time>11-05 16:41</time></div><p>调色配套素材包很实用，三段原始片段够练手，比只看演示强。</p><div class="tag-row"><span class="tag">剪辑教程</span></div></div>
+          <div class="comment"><div class="comment-head"><span class="avatar">邓</span><b>邓伯散步</b><time>11-04 09:12</time></div><p>旅拍类看多了会发现路线信息比画面更重要，能照着走一遍的才算有用。</p><div class="tag-row"><span class="tag">旅拍</span></div></div>
+        </div>
+      </section>
+
+      <!-- 9. 相关资讯 -->
+      <section class="panel" id="news" aria-labelledby="news-h">
+        <div class="panel-head">
+          <h2 id="news-h">相关资讯</h2>
+        </div>
+        <div class="news-list">
+          <article class="news-item">
+            <div>
+              <h3>城市夜行类内容集中上线，重庆与长沙两期同期更新</h3>
+              <p>11 月上旬多个记录类账号推出夜间步行系列，普遍采用无解说加环境声的处理方式，路线标注成为区分度关键。</p>
+            </div>
+            <time>11-08</time>
+          </article>
+          <article class="news-item">
+            <div>
+              <h3>星轨延时教程补充参数对照表，回应评论区提问</h3>
+              <p>原作者在 11 月 7 日的更新中加入间隔与快门对照表，并说明不同纬度下的调整区间。</p>
+            </div>
+            <time>11-07</time>
+          </article>
+          <article class="news-item">
+            <div>
+              <h3>无解说游戏流程受关注，与高密度解说形成互补</h3>
+              <p>部分玩家更偏好保留完整过场的版本，用于复盘剧情顺序；解说版则继续承担玩法入门功能。</p>
+            </div>
+            <time>11-06</time>
+          </article>
+          <article class="news-item">
+            <div>
+              <h3>手作类内容开始保留返工片段，完整度成为新卖点</h3>
+              <p>近两周上线的多期手作实录把失败与返工纳入正片，观众反馈这类信息比成品展示更有参考价值。</p>
+            </div>
+            <time>11-05</time>
+          </article>
+          <article class="news-item">
+            <div>
+              <h3>器材横评改用双场景对照录音，评测方法趋于统一</h3>
+              <p>入门麦克风类评测开始同时提供室内人声与户外环境声样本，减少环境差异对结论的干扰。</p>
+            </div>
+            <time>11-03</time>
+          </article>
+          <article class="news-item">
+            <div>
+              <h3>旅拍路线字幕标注普及，地点信息成出行参考依据</h3>
+              <p>泉州、潮州等地的古街记录普遍增加地点字幕，观众可按标注复现步行路线。</p>
+            </div>
+            <time>11-01</time>
+          </article>
+        </div>
+      </section>
+
+      <!-- 10. 相关推荐 -->
+      <section class="panel" id="recommend" aria-labelledby="rec-h">
+        <div class="panel-head">
+          <h2 id="rec-h">延伸方向</h2>
+          <span class="more">与本周精选角度不同</span>
+        </div>
+        <div class="rec-tags">
+          <a href="/#picks">多线叙事解说 <small>结构分析</small></a>
+          <a href="/#picks">竖屏短片叙事 <small>形式对比</small></a>
+          <a href="/#picks">延时摄影后期堆栈 <small>技术延伸</small></a>
+          <a href="/#picks">步行路线复现方法 <small>出行参考</small></a>
+          <a href="/#picks">实况录制设备配置 <small>器材方向</small></a>
+          <a href="/#picks">手作材料替代方案 <small>复现技巧</small></a>
+          <a href="/#picks">纪录片式跟拍节奏 <small>叙事节奏</small></a>
+          <a href="/#picks">混剪选段出处标注 <small>检索方法</small></a>
+        </div>
+      </section>
+
+      <!-- 11. 热度榜单 -->
+      <section class="panel" id="ranking" aria-labelledby="rank-h">
+        <div class="panel-head">
+          <h2 id="rank-h">近 7 天热度榜单</h2>
+          <span class="more">统计至 11-08 11:00</span>
+        </div>
+        <ol class="rank">
+          <li><span class="num">1</span><span class="t">星轨延时拍摄全流程<small>知识讲解 · 24 分钟</small></span><span class="v">9.4</span></li>
+          <li><span class="num">2</span><span class="t">城市夜行记录·重庆篇<small>生活记录 · 18 分钟</small></span><span class="v">9.1</span></li>
+          <li><span class="num">3</span><span class="t">开放世界主线无解说流程·第 8 段<small>游戏实况 · 52 分钟</small></span><span class="v">9.0</span></li>
+          <li><span class="num">4</span><span class="t">泉州古街一日·从西街到涂门街<small>生活记录 · 22 分钟</small></span><span class="v">8.9</span></li>
+          <li><span class="num">5</span><span class="t">悬疑片《雾港》三十分钟解说<small>影视剪辑 · 31 分钟</small></span><span class="v">8.8</span></li>
+          <li><span class="num">6</span><span class="t">剪辑软件调色入门·三步建立风格<small>知识讲解 · 17 分钟</small></span><span class="v">8.7</span></li>
+          <li><span class="num">7</span><span class="t">手作开箱·木质机械键盘组装<small>过程实录 · 36 分钟</small></span><span class="v">8.6</span></li>
+          <li><span class="num">8</span><span class="t">电影混剪·雨夜主题十二段<small>影视剪辑 · 6 分钟</small></span><span class="v">8.5</span></li>
+        </ol>
+      </section>
+
+      <!-- 12. 更新脉络 -->
+      <section class="panel" id="timeline" aria-labelledby="tl-h">
+        <div class="panel-head">
+          <h2 id="tl-h">近两周更新脉络</h2>
+        </div>
+        <ul class="timeline">
+          <li><time>11-08</time><b>开放世界主线无解说流程·第 8 段</b>上线，城市夜行·重庆篇扩充段落。</li>
+          <li><time>11-07</time><b>星轨延时教程</b>补充参数对照表，悬疑解说修正时间码标注。</li>
+          <li><time>11-06</time><b>手作键盘组装</b>发布下集预告，泉州古街一日新增地点字幕。</li>
+          <li><time>11-05</time><b>调色入门</b>开放配套素材包，雨夜混剪片尾出处逐段标注。</li>
+          <li><time>11-04</time><b>城市夜行·长沙篇</b>夜宵段落重录音轨。</li>
+          <li><time>11-03</time><b>经典平台跳跃速通</b>直播预告发布，麦克风横评补充对照录音。</li>
+          <li><time>11-01</time><b>海边小城三日</b>第一集上线，按天分段发布。</li>
+          <li><time>10-30</time><b>城市夜行·重庆篇</b>首段上线，确立无解说处理方式。</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT SIDE COLUMN -->
+    <aside class="side-col" aria-label="辅助信息">
+      <section class="panel widget" aria-labelledby="w1">
+        <h2 id="w1">今日更新速览</h2>
+        <ul class="timeline">
+          <li><time>11:20</time><b>无解说流程·第 8 段</b>已上线</li>
+          <li><time>09:45</time><b>城市夜行·重庆篇</b>扩充至 18 分钟</li>
+          <li><time>昨天 21:10</time><b>星轨延时教程</b>新增对照表</li>
+          <li><time>昨天 18:30</time><b>《雾港》解说</b>时间码勘误</li>
+          <li><time>11-06 20:00</time><b>键盘组装</b>下集预告</li>
+        </ul>
+      </section>
+
+      <section class="panel widget" aria-labelledby="w2">
+        <h2 id="w2">类型速查</h2>
+        <div class="quick-links">
+          <a href="/#picks">影视解说 <span>118</span></a>
+          <a href="/#picks">主题混剪 <span>96</span></a>
+          <a href="/#picks">城市漫步 <span>142</span></a>
+          <a href="/#picks">旅拍路线 <span>87</span></a>
+          <a href="/#picks">无解说流程 <span>74</span></a>
+          <a href="/#picks">速通实录 <span>53</span></a>
+          <a href="/#picks">软件教程 <span>91</span></a>
+          <a href="/#picks">器材评测 <span>68</span></a>
+        </div>
+      </section>
+
+      <section class="panel widget" aria-labelledby="w3">
+        <h2 id="w3">编辑手记</h2>
+        <p class="credit-note"><b>本周观察：</b>无解说与强线索两种处理方式同时增多，说明观众对“可复现信息”的需求在上升。挑选条目时，先看开头两分钟有没有交代清楚地点与目的，往往比看评分更快做出判断。</p>
+      </section>
+
+      <section class="panel widget" aria-labelledby="w4">
+        <h2 id="w4">常见类型对照</h2>
+        <div class="quick-links">
+          <a href="/#deep">解说 vs 混剪 <span>结构</span></a>
+          <a href="/#deep">氛围型 vs 强线索型 <span>记录</span></a>
+          <a href="/#deep">无解说 vs 高密度解说 <span>实况</span></a>
+          <a href="/#deep">成品展示 vs 完整流程 <span>实录</span></a>
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="brand-name">91网</span>
+        <p>聚合影视剪辑、生活记录、游戏实况、知识讲解与过程实录的视频条目索引，按类型与更新节奏组织，便于先判断再观看。</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h3>内容频道</h3>
+          <a href="/#overview">领域概览</a>
+          <a href="/#picks">精选条目</a>
+          <a href="/#latest">最新更新</a>
+          <a href="/#categories">分类入口</a>
+        </div>
+        <div>
+          <h3>深度与指南</h3>
+          <a href="/#deep">深度解析</a>
+          <a href="/#guide">观看指南</a>
+          <a href="/#faq">常见问答</a>
+        </div>
+        <div>
+          <h3>社区与动态</h3>
+          <a href="/#comments">观众评论</a>
+          <a href="/#news">相关资讯</a>
+          <a href="/#ranking">热度榜单</a>
+          <a href="/#timeline">更新脉络</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 91网 · 内容聚合示例页面</span>
+      <span class="disclaimer">部分内容为示例数据，仅用于展示页面结构</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var input = document.getElementById('siteSearch');
+  if(!input) return;
+  var grid = document.getElementById('pickGrid');
+  var noResult = document.getElementById('noResult');
+  var cards = grid ? Array.prototype.slice.call(grid.querySelectorAll('.card')) : [];
+
+  function resetOtherSections(){}
+
+  function apply(){
+    var q = input.value.trim().toLowerCase();
+    document.body.classList.toggle('searching', q.length > 0);
+    var visible = 0;
+    cards.forEach(function(card){
+      var text = card.textContent.toLowerCase();
+      var match = !q || text.indexOf(q) !== -1;
+      card.classList.toggle('hidden-by-search', !match);
+      if(match) visible++;
+    });
+    if(noResult){
+      noResult.style.display = (q && visible === 0) ? 'block' : 'none';
+    }
+    var picksSection = document.getElementById('picks');
+    if(picksSection && q){
+      picksSection.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  var timer = null;
+  input.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(apply, 160);
+  });
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ input.value=''; apply(); }
+  });
+})();
+</script>
+</body>
+                </html>
